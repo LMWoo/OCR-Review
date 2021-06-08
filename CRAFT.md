@@ -1,4 +1,4 @@
-## CRAFT
+## CRAFT: Character Region Awareness for Text Detection
 
 ### 논문
 - https://arxiv.org/pdf/1904.01941.pdf
