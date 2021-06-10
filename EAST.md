@@ -7,5 +7,8 @@
 1. Introduction
 2. Related Work
 3. Methodology
+```
+제안된 알고리즘의 핵심 요소는 text 
+```
 4. Experiments
 5. Conclusion and Future Work
