@@ -15,6 +15,9 @@
 이 감지기를 Efficient and Accuracy Scene Text detection pipeline(EAST)라고 명명한다.
 ```
 ### 3.1 Pipeline
+```
+pipeline의 개략적인 개요는 
+```
 
 ## 4. Experiments
 ## 5. Conclusion and Future Work
