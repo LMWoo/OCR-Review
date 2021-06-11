@@ -63,9 +63,20 @@ feature maps의 4가지 levels은 stem에서 얻고, 각 크기는 입력 이미
 
 <img width="400" alt="스크린샷 2021-06-11 오전 9 57 32" src="https://user-images.githubusercontent.com/80749934/121615293-7a910c80-ca9b-11eb-8779-3e379b252042.png">
 
+|기호|정의|
+|----|----|
+|![](https://latex.codecogs.com/gif.latex?g_i)|the merge base|
+|![](https://latex.codecogs.com/gif.latex?h_i)|the merged feature map|
+|operator [·;·]|concatenation along the channel axis|
 
 ```
-위 그림에서 gi는 
+위 그림과 식들은 feature-merging branch관련 공식을 나타낸다.
+각 merging stage는 다음 단계로 요약된다.
+1. 마지막 단계의 feature map크기를 2배로 늘리는 unpooling layer로 공급되고, 현재 feature map과 concatenate된다.
+2. conv1x1 bottleneck은 channel의 수를 줄여 계산량을 줄인다.
+3. 최종적으로 정보를 
+
+
 ```
 
 
