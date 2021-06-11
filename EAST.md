@@ -179,7 +179,9 @@ Q의 모든 좌표 값을 다음과 같은 순서대로 설정한다.
 
 <img width="392" alt="스크린샷 2021-06-11 오후 2 34 01" src="https://user-images.githubusercontent.com/80749934/121635968-277e8000-cac2-11eb-87c8-b54267a7461a.png">
 
-정규화 term ![](https://latex.codecogs.com/gif.latex?N_%7BQ%5E*%7D)는 
+정규화 term ![](https://latex.codecogs.com/gif.latex?N_%7BQ%5E*%7D)는 밑에 식에 의해 사각형 변중 가장 짧은 변이다.
+
+<img width="292" alt="스크린샷 2021-06-11 오후 2 41 45" src="https://user-images.githubusercontent.com/80749934/121636662-331e7680-cac3-11eb-9da3-ea9a9a203b3a.png">
 
 
 ## 4. Experiments
