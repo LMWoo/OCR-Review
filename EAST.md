@@ -122,7 +122,13 @@ balanced sampling과 hard negative mining으로 신중하게 처리된다.
 
 <img width="456" alt="스크린샷 2021-06-11 오후 12 08 38" src="https://user-images.githubusercontent.com/80749934/121625172-ec725180-caad-11eb-92fb-b7a06ab4807a.png">
 
+<img width="229" alt="스크린샷 2021-06-11 오후 12 11 02" src="https://user-images.githubusercontent.com/80749934/121625302-293e4880-caae-11eb-8308-bee39cda655c.png">
 
+|기호|정의|
+|----|----|
+|![](https://latex.codecogs.com/gif.latex?%5Chat%7BY%7D) ( = ![](https://latex.codecogs.com/gif.latex?F_s))|the prediction of the score map|
+|![](https://latex.codecogs.com/gif.latex?Y%5E*)|the ground truth|
+|![](https://latex.codecogs.com/gif.latex?%5Cbeta)|the balancing factor between positive and negative samples|
 
 ## 4. Experiments
 ## 5. Conclusion and Future Work
