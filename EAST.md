@@ -86,8 +86,8 @@ QUAD는 pixel 위치에서 각 vertices의 좌표 변화를 나타내며, geomet
 
 score map의 positive영역은 원래의 영역보다 줄여저 설계된다.(Table 1.의 a)
 
-사각형 Q에 대해 pi = {xi, yi}는 시계방향의 각 사각형 정점이다.
-Q를 줄이기 위해, 각 pi에 대해 reference length ri를 구해야한다.
+사각형 Q에 대해 ![](https://latex.codecogs.com/gif.latex?p_i) = {![](https://latex.codecogs.com/gif.latex?x_i), ![](https://latex.codecogs.com/gif.latex?y_i)}는 시계방향의 각 사각형 정점이다.
+Q를 줄이기 위해, 각 ![](https://latex.codecogs.com/gif.latex?p_i)에 대해 reference length(![](https://latex.codecogs.com/gif.latex?r_i))를 구해야한다.
 
 ## 4. Experiments
 ## 5. Conclusion and Future Work
