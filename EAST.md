@@ -180,9 +180,16 @@ Q의 모든 좌표 값을 다음과 같은 순서대로 설정한다.
 <img width="392" alt="스크린샷 2021-06-11 오후 2 34 01" src="https://user-images.githubusercontent.com/80749934/121635968-277e8000-cac2-11eb-87c8-b54267a7461a.png">
 
 정규화 term ![](https://latex.codecogs.com/gif.latex?N_%7BQ%5E*%7D)는 밑에 식에 의해 사각형 변중 가장 짧은 변이다.
+그리고 ![](https://latex.codecogs.com/gif.latex?P_Q)는 다른 정점 순서를 가진 ![](https://latex.codecogs.com/gif.latex?Q%5E*)의 등가 사각형의 집합이다. training데이터 셋에서 사각형 annotation이 일치하지 않아 순서 변경이 필요하다.
 
 <img width="292" alt="스크린샷 2021-06-11 오후 2 41 45" src="https://user-images.githubusercontent.com/80749934/121636662-331e7680-cac3-11eb-9da3-ea9a9a203b3a.png">
 
+### 3.5 Training
+
+이 network는 ADAM optimizer를 이용해 학습된다.
+ADAM의 학습률은 1e-3에서 시작하여 27300 batch마다 1/10씩 줄어 1e-5에서 멈춘다.
+학습 속도를 높이기 위해, 이미지에서 균일하게 512x512크기로 샘플링하여 24크기의 미니 배치를 형성한다.
+이 network는 성능 개선이 멈출 때 까지 계속 train된다.
 
 ## 4. Experiments
 ## 5. Conclusion and Future Work
