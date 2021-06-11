@@ -89,6 +89,26 @@ score map의 positive영역은 원래의 영역보다 줄여저 설계된다.(Ta
 사각형 Q에 대해 ![](https://latex.codecogs.com/gif.latex?p_i) = {![](https://latex.codecogs.com/gif.latex?x_i), ![](https://latex.codecogs.com/gif.latex?y_i)}는 시계방향의 각 사각형 정점이다.
 Q를 줄이기 위해, 각 ![](https://latex.codecogs.com/gif.latex?p_i)에 대해 reference length(![](https://latex.codecogs.com/gif.latex?r_i))를 구해야한다.
 
+![](https://latex.codecogs.com/gif.latex?D%28p_i%2C%20p_j%29)는 ![](https://latex.codecogs.com/gif.latex?p_i%2C%20p_j)사이의 거리이다.
+
+<img width="320" alt="스크린샷 2021-06-11 오전 11 14 34" src="https://user-images.githubusercontent.com/80749934/121620975-3eaf7480-caa6-11eb-8cf9-07b67961cf5d.png">
+
+1. 마주보는 변의 2개의 쌍에 대해 평균 길이가 긴 것을 'longer'로 결정한다.
+2. 각 변에 대해 0.3![](https://latex.codecogs.com/gif.latex?r_i), 0.3![](https://latex.codecogs.com/gif.latex?r_%7B%28i%7Emod%7E4%29&plus;1%7D)만큼 안쪽으로 끝점을 이동시켜 줄인다.
+
+#### 3.3.2 Geometry Map Generation
+
+QUAD style로 데이터 셋의 text regions을 annoate하기 위해, 
+먼저 최소한 영역으로 region을 커버하는 회전된 직사각형을 생성한다.
+그런 다음, positive score를 가진 각 픽셀에 대해, text box의 4 boundaries까지의 거리를 계산하고,
+RBOX의 4 channels ground truth에 그 값을 넣는다.
+QUAD ground truth에 대해, 8-channel geometry map에서 positive score의 각 픽셀에 대한 값은,
+사각형의 4개의 정점으로부터 좌표 변화량이다.
+
+### 3.4 Loss Functions
+
+
+
 ## 4. Experiments
 ## 5. Conclusion and Future Work
 ## 6. 공부 할 것들
