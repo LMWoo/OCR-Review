@@ -177,6 +177,11 @@ Q의 모든 좌표 값을 다음과 같은 순서대로 설정한다.
 
 그런 다음 Loss는 다음과 같다.
 
+<img width="392" alt="스크린샷 2021-06-11 오후 2 34 01" src="https://user-images.githubusercontent.com/80749934/121635968-277e8000-cac2-11eb-87c8-b54267a7461a.png">
+
+
+
+
 ## 4. Experiments
 ## 5. Conclusion and Future Work
 ## 6. 공부 할 것들
