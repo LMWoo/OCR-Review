@@ -107,10 +107,21 @@ QUAD ground truth에 대해, 8-channel geometry map에서 positive score의 각 
 
 ### 3.4 Loss Functions
 
+<img width="150" alt="스크린샷 2021-06-11 오전 11 43 30" src="https://user-images.githubusercontent.com/80749934/121623250-4ffa8000-caaa-11eb-8e6b-3c5f368add93.png">
 
+Ls와 Lg는 각각 score map과 geometry에 대한 loss를 나타내며, ![](https://latex.codecogs.com/gif.latex?%5Clambda_g)는 이 2개의 loss에 대한 가중치이다. 실제 실험에는 1로 세팅한다.
+
+#### 3.4.1 Loss for Score Map
+
+대부분 최첨단 감지 pipelines에서 학습 이미지는 target objects의 분균형한 분포를 해결하기 위해,
+balanced sampling과 hard negative mining으로 신중하게 처리된다.
+그렇게 하면 잠재적으로 network성능을 개선할 수 있다.
+그러나, 그러한 기술을 이용하는 것은 반드시 구별할 수 없는 단계, tuning을 위한 더 많은 parameters 더 복잡한 pipeline을 도입한다.
+
+더 간단한 training절차를 수월하게 하기 위해, class-balanced cross-entropy를 사용한다.
 
 ## 4. Experiments
 ## 5. Conclusion and Future Work
 ## 6. 공부 할 것들
-
+class-balanced cross-entropy
 candiate proposal
