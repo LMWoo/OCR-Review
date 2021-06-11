@@ -173,8 +173,9 @@ QUAD
 특히 한 쪽으로 긴, 단어의 사각형을 위해 설계된 extra normalization term이 추가하여 smoothed-L1 loss를 확장한다.
 Q의 모든 좌표 값을 다음과 같은 순서대로 설정한다.
 
+<img width="310" alt="스크린샷 2021-06-11 오후 2 32 51" src="https://user-images.githubusercontent.com/80749934/121635862-f2722d80-cac1-11eb-984b-bab5c248c235.png">
 
-그런 다음 
+그런 다음 Loss는 다음과 같다.
 
 ## 4. Experiments
 ## 5. Conclusion and Future Work
