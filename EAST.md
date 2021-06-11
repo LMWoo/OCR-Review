@@ -74,11 +74,24 @@ feature maps의 4가지 levels은 stem에서 얻고, 각 크기는 입력 이미
 각 merging stage는 다음 단계로 요약된다.
 1. 마지막 단계의 feature map크기를 2배로 늘리는 unpooling layer로 공급되고, 현재 feature map과 concatenate된다.
 2. conv1x1 bottleneck은 channel의 수를 줄여 계산량을 줄인다.
-3. 최종적으로 정보를 
+3. 정보를 융합하는 conv3x3 layer는 이 merging단계의 출력을 생산한다.
+4. 마지막 단계의 conv3x3 layer는 merging branch의 마지막 feature map을 생산하며, output layer에 이를 공급한다.
 
+branch단계에서 convolutions에 대한 channels의 수를 작게 유지하며, 
+stem에 대한 계산 overhead의 극히 일부만 추가하여 효율적인 network계산을 한다.
+마지막 output layer는 feature map의 32개 channels을 score map의 1 channel, 
+geometry map의 multi-channel channel로 산출하는 conv1x1연산자를 포함한다.
+geometry출력은 RBOX또는 QUAD중 하나가 될 수 있다.
 
+RBOX는 axis-aligned bounding box(AABB)R의 4 channels, rotation angle의 1 channel로 나타낸다.
+R은 pixel 위치에서 각각 사각형의 boundaries인 left, top, right, bottom의 거리를 나타낸다.
+
+QUAD는 pixel 위치에서 각 vertices의 좌표 변화를 나타내며, geometry output은 8 channels을 포함한다.
 ```
 
+### 3.3 Label Generation
+
+#### 3.3.1 Score Map Generation for Quadrangle
 
 
 ## 4. Experiments
