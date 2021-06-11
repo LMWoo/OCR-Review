@@ -38,7 +38,9 @@ NMS의 결과는 pipeline의 최종 출력으로 간주 된다.
 ### 3.2 Network Design
 
 ```
-
+text감지를 위해 neural networks를 설계할 때, 몇 가지 요소를 고려해야한다.
+단어 영역의 크기는 매우 다양해서, 큰 크기의 단어의 존재를 결정하는 것은 neural network의 나중 단계에서 features을 필요로 하고,
+작은 크기의 단어를 둘러싸는 정확한 geometry를 예측하는 것은 초기 단계에서 low-level정보를 필요로한다.
 ```
 
 ## 4. Experiments
