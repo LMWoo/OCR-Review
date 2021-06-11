@@ -130,6 +130,18 @@ balanced sampling과 hard negative mining으로 신중하게 처리된다.
 |![](https://latex.codecogs.com/gif.latex?Y%5E*)|the ground truth|
 |![](https://latex.codecogs.com/gif.latex?%5Cbeta)|the balancing factor between positive and negative samples|
 
+#### 3.4.2 Loss for Geometries
+
+text감지에 한 가지 문제는 text크기가 natural scene images에서 매우 다양하다는 것이다.
+L1 또는 L2 loss를 직접 사용하는 것은 loss bias를 더 크고 긴 text regions으로 이끈다.
+크고 작은 text region에 대해 정확한 text geometry 예측을 생성하기 위해, regression loss는 scale-invariant이어야한다.
+그러므로, RBox regression의 AABB에 IoU loss를 적용하고,
+QUAD regression에 대해 scale-normalize된 smoothed-L1을 사용한다.
+
+RBOX
+AABB part를 위해, 다른 크기의 objects에 대해 불변이므로 IoU loss를 채택한다.
+
+
 ## 4. Experiments
 ## 5. Conclusion and Future Work
 ## 6. 공부 할 것들
