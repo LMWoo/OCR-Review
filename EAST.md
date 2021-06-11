@@ -61,6 +61,12 @@ feature maps의 4가지 levels은 stem에서 얻고, 각 크기는 입력 이미
 실험에서, 잘 알려진 VGG16모델을 채택했으며, pooling-2에서 pooling-5까지의 feature maps이 얻어진다.
 ```
 
+<img width="497" alt="스크린샷 2021-06-11 오전 9 57 32" src="https://user-images.githubusercontent.com/80749934/121615293-7a910c80-ca9b-11eb-8779-3e379b252042.png">
+
+```
+
+```
+
 
 
 ## 4. Experiments
