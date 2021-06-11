@@ -40,7 +40,14 @@ NMS의 결과는 pipeline의 최종 출력으로 간주 된다.
 ```
 text감지를 위해 neural networks를 설계할 때, 몇 가지 요소를 고려해야한다.
 단어 영역의 크기는 매우 다양해서, 큰 크기의 단어의 존재를 결정하는 것은 neural network의 나중 단계에서 features을 필요로 하고,
-작은 크기의 단어를 둘러싸는 정확한 geometry를 예측하는 것은 초기 단계에서 low-level정보를 필요로한다.
+반대로, 작은 크기의 단어를 둘러싸는 정확한 geometry를 예측하는 것은 초기 단계에서 low-level정보를 필요로한다.
+그러므로, 이러한 요구를 충족하기 위해서 다른 levels의 features를 사용해야한다.
+HyperNet은 feature maps에 대해 이러한 조건을 만족한다.
+하지만 커다란 feature maps에서 많은 채널을 병합하는 것은 나중 단계이서 계산 오버헤드가 크게 증가할 것이다.
+
+이를 해결하기 위해, upsampling branch를 작게 유지하면서 feature maps을 병합하는 U-shape의 아이디어를 채택했다.
+결국 다른 levels의 features를 활용하고 계산 비용을 적게유지할 수 있는 network를 갖게 된다.
+
 ```
 
 ## 4. Experiments
