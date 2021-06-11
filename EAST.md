@@ -141,6 +141,22 @@ QUAD regression에 대해 scale-normalize된 smoothed-L1을 사용한다.
 RBOX
 AABB part를 위해, 다른 크기의 objects에 대해 불변이므로 IoU loss를 채택한다.
 
+<img width="428" alt="스크린샷 2021-06-11 오후 1 28 53" src="https://user-images.githubusercontent.com/80749934/121631030-4a586680-cab9-11eb-97aa-64d9fe1bcae0.png">
+
+![](https://latex.codecogs.com/gif.latex?%5Chat%7BR%7D)는 예측된 AABB geometry, ![](https://latex.codecogs.com/gif.latex?R%5E*)는 대응하는 ground truth를 나타낸다.
+
+교차된 직사각형의 가로와 세로는 밑에 식과 같다.
+<img width="300" alt="스크린샷 2021-06-11 오후 1 29 17" src="https://user-images.githubusercontent.com/80749934/121631039-4debed80-cab9-11eb-8d29-23f675bf690a.png">
+d1, d2, d3, d4는 픽셀에서 각각 사각형의 left, top, right, bottom까지의 거리를 나타낸다. 
+
+<img width="338" alt="스크린샷 2021-06-11 오후 1 29 40" src="https://user-images.githubusercontent.com/80749934/121631040-4e848400-cab9-11eb-97ef-ddab15e7d4ca.png">
+위 식은 
+
+
+<img width="266" alt="스크린샷 2021-06-11 오후 1 29 50" src="https://user-images.githubusercontent.com/80749934/121631042-4f1d1a80-cab9-11eb-81b9-f5a49ff5d821.png">
+
+<img width="209" alt="스크린샷 2021-06-11 오후 1 30 00" src="https://user-images.githubusercontent.com/80749934/121631046-4fb5b100-cab9-11eb-9bdf-0fd2939dc113.png">
+
 
 ## 4. Experiments
 ## 5. Conclusion and Future Work
