@@ -145,18 +145,36 @@ AABB part를 위해, 다른 크기의 objects에 대해 불변이므로 IoU loss
 
 ![](https://latex.codecogs.com/gif.latex?%5Chat%7BR%7D)는 예측된 AABB geometry, ![](https://latex.codecogs.com/gif.latex?R%5E*)는 대응하는 ground truth를 나타낸다.
 
-교차된 직사각형의 가로와 세로는 밑에 식과 같다.
 <img width="300" alt="스크린샷 2021-06-11 오후 1 29 17" src="https://user-images.githubusercontent.com/80749934/121631039-4debed80-cab9-11eb-8d29-23f675bf690a.png">
+
+교차된 직사각형의 가로와 세로는 위 식과 같다.
 d1, d2, d3, d4는 픽셀에서 각각 사각형의 left, top, right, bottom까지의 거리를 나타낸다. 
 
 <img width="338" alt="스크린샷 2021-06-11 오후 1 29 40" src="https://user-images.githubusercontent.com/80749934/121631040-4e848400-cab9-11eb-97ef-ddab15e7d4ca.png">
-위 식은 
 
+위 식은 union area를 나타낸다.
+그러므로 intersection / union area는 쉽게 계산된다.
 
 <img width="266" alt="스크린샷 2021-06-11 오후 1 29 50" src="https://user-images.githubusercontent.com/80749934/121631042-4f1d1a80-cab9-11eb-81b9-f5a49ff5d821.png">
 
+위 식은 각도에 대한 loss이다.
+![](https://latex.codecogs.com/gif.latex?%5Chat%7B%5Ctheta%7D)은 예측된 angle이고 ![](https://latex.codecogs.com/gif.latex?%5Ctheta%5E*)은 ground truth이다.
+
 <img width="209" alt="스크린샷 2021-06-11 오후 1 30 00" src="https://user-images.githubusercontent.com/80749934/121631046-4fb5b100-cab9-11eb-9bdf-0fd2939dc113.png">
 
+위 식 geometry loss는 AABB loss와 angle loss의 가중치 합이다.
+이 실험에서 ![](https://latex.codecogs.com/gif.latex?%5Clambda_%5Ctheta)는 10으로 세팅한다.
+
+회전 각에 상관 없이 AABB의 Loss를 구한다.
+이 것은 각도가 완벽히 예측될 때, 사각형 IoU의 근사치라고 볼 수 있다.
+훈련 중에는 해당되지 않지만 네트워크가 R을 예측하는 방법을 배우도록 올바른 기울기를 부과 할 수 있다.
+
+QUAD
+특히 한 쪽으로 긴, 단어의 사각형을 위해 설계된 extra normalization term이 추가하여 smoothed-L1 loss를 확장한다.
+Q의 모든 좌표 값을 다음과 같은 순서대로 설정한다.
+
+
+그런 다음 
 
 ## 4. Experiments
 ## 5. Conclusion and Future Work
