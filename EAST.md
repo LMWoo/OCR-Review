@@ -90,9 +90,12 @@ QUAD는 pixel 위치에서 각 vertices의 좌표 변화를 나타내며, geomet
 ```
 
 ### 3.3 Label Generation
-
 #### 3.3.1 Score Map Generation for Quadrangle
 
+```
+score map의 positive영역은 원래의 영역보다 줄여저 설계된다.
+
+```
 
 ## 4. Experiments
 ## 5. Conclusion and Future Work
