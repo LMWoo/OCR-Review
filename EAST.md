@@ -120,6 +120,10 @@ balanced sampling과 hard negative mining으로 신중하게 처리된다.
 
 더 간단한 training절차를 수월하게 하기 위해, class-balanced cross-entropy를 사용한다.
 
+<img width="456" alt="스크린샷 2021-06-11 오후 12 08 38" src="https://user-images.githubusercontent.com/80749934/121625172-ec725180-caad-11eb-92fb-b7a06ab4807a.png">
+
+
+
 ## 4. Experiments
 ## 5. Conclusion and Future Work
 ## 6. 공부 할 것들
