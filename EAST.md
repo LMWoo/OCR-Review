@@ -216,6 +216,53 @@ WEIGHTEDMERGE(g, p)에서, 병합된 사각형의 좌표는 두 개의 사각형
 그럼에도 불구하고, 여전히 기능 설명을 위해 NMS라는 용어를 사용한다.
 
 ## 4. Experiments
+
+제안된 알고리즘과 기존 방식과 비교를 위해, 3개의 데이터셋(ICDAR2015, COCO-Text, MSRA-TD500)에 대해 질적 및 정량적 실험을 수행한다.
+
+### 4.1 Benchmark Datasets
+
+*ICDAR2015*
+
+1. 1000개의 training images, 500개의 test images
+2. 텍스트 영역은 4 vertices of the quadrangle(논문에서 QUAD와 대응)
+3. 최소 면적을 가진 rotated rectangle(RBOX)를 생성
+4. Google Glass에서 촬영했으며, 텍스트가 임의의 방향, motion blur, 저 해상도의 문제가 있음
+5. ICDAR2013의 229개의 training images또한 사용
+
+*COCO-Text*
+
+1. 가장 큰 데이터 셋.
+2. MS-COCO의 이미지를 재사용.
+3. 총 63686개의 이미지가 있으며, 43686개의 training set, 20000개의 test set으로 선택
+4. 텍스트 영역은 axis-aligned bounding box(AABB)형태이고, angle은 0으로 세팅
+5. ICDAR2015와 같은 data processing 방식
+
+*MSRA-TD500*
+
+1. 300개의 training images, 200개의 test images
+2. 텍스트 영역은 임의의 방향과 문장 level, RBOX형태로 annoate됨
+3. English, Chinense를 포함
+4. training images가 적어, HUST-TR400의 400개의 이미지를 이용
+
+### 4.2 Base Networks
+
+COCO-Text를 제외하고, 모든 text detection 데이터 셋은 object detection데이터 셋에 비해 작다.
+그러므로, 단일 network를 채택하면, overfitting또는 under-fitting때문에 어려움을 겪을 수 있다.
+제안된 프레임워크를 평가하기 위해, 모든 데이터 셋에서 다른 출력의 기하 구조를 가진 3가지 base networks를 사용한다.
+
+*VGG16*
+
+1. text detection포함 fine-tuning을 지원하기 위해 base network로 널리 사용됨
+2. 수용 영역이 적고, 다소 큰 네트워크라는 두 가지 단점이 있음
+
+*PVANET*
+
+1. Faster-RCNN framework의 feature extractor의 대체를 목표함
+2. 너무 작아, 충분히 GPU 병렬 연산이 가능
+3. 기존 PVANET 채널의 2배인 PVANET2x를 채택함
+4. PVANET2x는 기존 보다 약간 느리지만 더 많은 병렬 처리 연산을 수행함
+5. 마지막 출력의 수용역역은 809이며, VGG16보다 훨씬 크다.
+
 ## 5. Conclusion and Future Work
 ## 6. 공부 할 것들
 
