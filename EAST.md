@@ -193,6 +193,18 @@ ADAM의 학습률은 1e-3에서 시작하여 27300 batch마다 1/10씩 줄어 1e
 학습 속도를 높이기 위해, 이미지에서 균일하게 512x512크기로 샘플링하여 24크기의 미니 배치를 형성한다.
 이 network는 성능 개선이 멈출 때 까지 계속 train된다.
 
+### 3.6 Locality-Aware NMS
+
+마지막 결과를 형성하기 위해, thresholding 이후 살아남은 geometries가 NMS에 의해 병합되야한다.
+단순 NMS알고리즘은 geometries후보의 수 n에 ![](https://latex.codecogs.com/gif.latex?O%28n%5E2%29)의 속도로 실행되며,
+예측으로 부터 수만 개의 geometries를 마주하기 때문에 받아들일 수 없다.
+
+가까운 픽셀에서의 geometries가 서로 연관 된다는 경향이 있다는 전제 하에,
+geometries를 row by row로 병합할 것을 제안, geometries를 병합하는 동안,
+현재 geometry가 마지막 병합된 것과 반복적으로 병합될 것이다.
+이 개선된 기술은 가장 빠를때, O(n)로 실행된다.
+최악의 경우 기존 알고리즘 속도와 같지만, 이 알고리즘은 실질적으로 빨리 실행된다.
+
 ## 4. Experiments
 ## 5. Conclusion and Future Work
 ## 6. 공부 할 것들
