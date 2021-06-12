@@ -138,7 +138,8 @@ L1 또는 L2 loss를 직접 사용하는 것은 loss bias를 더 크고 긴 text
 그러므로, RBox regression의 AABB에 IoU loss를 적용하고,
 QUAD regression에 대해 scale-normalize된 smoothed-L1을 사용한다.
 
-RBOX
+*RBOX*
+
 AABB part를 위해, 다른 크기의 objects에 대해 불변이므로 IoU loss를 채택한다.
 
 <img width="428" alt="스크린샷 2021-06-11 오후 1 28 53" src="https://user-images.githubusercontent.com/80749934/121631030-4a586680-cab9-11eb-97aa-64d9fe1bcae0.png">
@@ -169,7 +170,8 @@ d1, d2, d3, d4는 픽셀에서 각각 사각형의 left, top, right, bottom까�
 이 것은 각도가 완벽히 예측될 때, 사각형 IoU의 근사치라고 볼 수 있다.
 훈련 중에는 해당되지 않지만 네트워크가 R을 예측하는 방법을 배우도록 올바른 기울기를 부과 할 수 있다.
 
-QUAD
+*QUAD*
+
 특히 한 쪽으로 긴, 단어의 사각형을 위해 설계된 extra normalization term이 추가하여 smoothed-L1 loss를 확장한다.
 Q의 모든 좌표 값을 다음과 같은 순서대로 설정한다.
 
@@ -194,5 +196,9 @@ ADAM의 학습률은 1e-3에서 시작하여 27300 batch마다 1/10씩 줄어 1e
 ## 4. Experiments
 ## 5. Conclusion and Future Work
 ## 6. 공부 할 것들
+
+hard negative mining
+smoothed-L1 loss
+extra normalization term
 class-balanced cross-entropy
 candiate proposal
