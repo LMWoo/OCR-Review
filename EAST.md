@@ -205,12 +205,20 @@ geometries를 row by row로 병합할 것을 제안, geometries를 병합하는 
 이 개선된 기술은 가장 빠를때, O(n)로 실행된다.
 최악의 경우 기존 알고리즘 속도와 같지만, 이 알고리즘은 실질적으로 빨리 실행된다.
 
+<img width="400" alt="스크린샷 2021-06-12 오전 10 10 25" src="https://user-images.githubusercontent.com/80749934/121760654-dd030f00-cb66-11eb-887a-009f3ccf9afd.png">
+
+WEIGHTEDMERGE(g, p)에서, 병합된 사각형의 
+
+
+
 ## 4. Experiments
 ## 5. Conclusion and Future Work
 ## 6. 공부 할 것들
 
+```
 hard negative mining
 smoothed-L1 loss
 extra normalization term
 class-balanced cross-entropy
 candiate proposal
+```
