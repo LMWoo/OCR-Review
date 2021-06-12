@@ -207,9 +207,13 @@ geometries를 row by row로 병합할 것을 제안, geometries를 병합하는 
 
 <img width="400" alt="스크린샷 2021-06-12 오전 10 10 25" src="https://user-images.githubusercontent.com/80749934/121760654-dd030f00-cb66-11eb-887a-009f3ccf9afd.png">
 
-WEIGHTEDMERGE(g, p)에서, 병합된 사각형의 
+WEIGHTEDMERGE(g, p)에서, 병합된 사각형의 좌표는 두 개의 사각형의 score에 의해 가중치 평균이된다.
+구체적으로, a = WEIGHTEDMERGE(g, p)이면,
+![](https://latex.codecogs.com/gif.latex?a_i%20%3D%20V%28g%29g_i%20&plus;%20V%28p%29p_i) 및 ![](https://latex.codecogs.com/gif.latex?V%28a%29%20%3D%20V%28g%29%20&plus;%20V%28p%29),
+여기서 ![](https://latex.codecogs.com/gif.latex?a_i)는 a의 i번 좌표이며, V(a)는 a의 geometry점수이다.
 
-
+실제로, 표준 NMS절차에서 처럼 geometryes를 'selecting'보다 'averaging'하는 것에는 미묘한 차이가 있다.
+그럼에도 불구하고, 여전히 기능 설명을 위해 NMS라는 용어를 사용한다.
 
 ## 4. Experiments
 ## 5. Conclusion and Future Work
@@ -219,6 +223,7 @@ WEIGHTEDMERGE(g, p)에서, 병합된 사각형의
 hard negative mining
 smoothed-L1 loss
 extra normalization term
+Locality-Aware NMS
 class-balanced cross-entropy
 candiate proposal
 ```
