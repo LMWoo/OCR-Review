@@ -294,9 +294,33 @@ VGG16을 장착한 알고리즘 보다 PVANET및 PVANET2x를 장착한 알고리
 주된 이유는 VGG의 수용 영역이 PVANET및 PVANET2x보다 작기 때문이다.
 MSRA-TD500의 검증 프로토콜은 word level대신 line level 텍스트 감지 알고리즘 출력을 요구한다.
 
+추가적으로, ICDAR2013에서 recall, precision, F-score에서 0.8267, 0.9264, 0.8737을 달성했다.
+이전 최점단 성능과 비슷한 수준이다.
 
+### 4.5 Speed Comparision
+
+ICDAR2015 데이터셋에 500개 test images를 원래 해상도로 실행함
+단일 NVIDIA Titan X그래픽 타드 및 Intel E5-2670 v3(2.30 GHz)CPU로 실험
+제안된 방법의 후처리는 thresholding및 NMS를 포함, 다른 방식은 원래의 논문을 참고
+
+제안된 알고리즘은 이전 최첨단 알고리즘보다 훨씬 뛰어나며, 간단하고 효율적인 pipeline으로 계산 비용이 훨씬적다.
+가장 빠른 방식(Ours+PVANET)은 16.8FPS로 실행, 가장 느린 방식(Ours+VGG16)은 6.52FPS로 실행됨
+최고 성능(Ours+PVANET2x)는 13.2FPS로 실행됨
+
+### 4.6 Limitations
+
+탐지기가 다룰 수 있는 텍스트의 최대 크기는 수용영역에 비례한다.
+이는 이미지에 text lines처럼 긴 텍스트 영역을 예측하는데 제한된다.
+또한, ICDAR2015데이터 셋은 작은 영역의 텍스트만 가지므로 수직 텍스트에 대해 부정확한 예측을 할 수 있다.
 
 ## 5. Conclusion and Future Work
+
+적절한 손실 함수를 통합함으로써, 감지기는 텍스트 영역에 대해 rotated rectangles또는 quadrangles를 예측할 수 있다.
+향후 연구 방향
+1. curved text를 직접 감지하도록 geometry 공식을 조정
+2. detector와 recognition 통합
+3. 아이디어를 일반적인 물체 감지로 확장
+
 ## 6. 공부 할 것들
 
 ```
