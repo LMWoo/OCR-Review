@@ -6,7 +6,31 @@
 # 논문 요약
 ## 1. Introduction
 
+최근, 자연 장면에 포함된 텍스트 정보를 추출하고 이해하는 것이 점점 중요해지고 유명해졌다.
+그리고 그것은 ICDAR 컨테스트의 전례없는 많은 참가자와 NIST의 TRAT2016의 시작으로 입증된다.
 
+텍스트 감지는 텍스트 정보를 추출하고 이해하는데 중요한 역할을 한다.
+이전 텍스트 감지는 이미 여러 벤치마크에서 유망한 성능을 얻었다.
+텍스트 감지의 핵심은 배경으로부터 텍스트를 구별하기위한 features를 설계하는 것이다.
+이전에는 features를 수동으로 설계했고, 딥러닝 기반 방식의 features는 효율적으로 학습되었다.
+
+그러나, 기존방식은 대부분 여러 단계 및 요소로 구성되어 최적화 되지 않고 시간이 많이 걸린다.
+그러므로, 이러한 방식의 정확성과 효율성은 만족스럽지않다.
+
+이 논문에서는 오직 2단계를 가진 텍스트 감지 pipeline을 소개한다.
+이 pipeline은 직접적으로 word또는 text-line예측을 하는 fully convolutional network(FCN)모델을 사용한다.
+그리고 중복되고 느린 중간 단계를 제외한다.
+rotate rectangle또는 quadrangles가 될 수 있는 제안된 텍스트 예측은 최종 결과를 산출하기위해 Non-Max Suppression으로 보내진다.
+기존 방식과 비교하여, 제안된 알고리즘은 훨씬 향상된 성능을 달성하며,
+표준 벤치마크에서 qualitative및 quantitative실험에 따라 매우 빨리 실행된다.
+
+특히, ICDAR2015에서 0.7820, MSRA-TD500에서 0.7608, COCO-Text에서 0.3945의 F-score를 달성하여,
+이전 최첨단 알고리즘 보다 뛰어난 성능을 달성했다.
+동시에, Titan-X GPU, 720p해상도에서 최고 성능 모델에 대해 13.2fps, 최고 빠른 모델에 대해 16.8fps를 달성한다.
+
+1. 2단계로 구성된 텍스트 감지기 : a Fully Convolutional Network및 NMS(직접 텍스트 영역을 생산하고, 중복되고 시간걸리는 중간단계 제외
+2. 파이프라인은 geometric 모양이 rotated boxes또는 quadrangles가 될 수 있는 word level 또는 line level예측을 생산하는데 유연함
+3. 제안된 알고리즘은 정확성과 속도에서 이전 최점단 방식보다 뛰어난 성능을 달성함
 
 ## 2. Related Work
 ## 3. Methodology
