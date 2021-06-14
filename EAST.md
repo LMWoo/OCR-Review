@@ -73,19 +73,17 @@ line formation, word partition과 같은 여러 단계 및 요소로 구성된�
 
 <img width="650" alt="스크린샷 2021-06-11 오전 8 36 15" src="https://user-images.githubusercontent.com/80749934/121610083-2d5b6d80-ca90-11eb-9de8-7d3b50e65fa2.png">
 
-pipeline의 개략적인 개요는 위 그림에 e로 나와있다.
-이 알고리즘은 DenseBox의 일반적인 구조를 따르며,
-여기서 FCN으로 한 이미지가 공급되며, 픽셀별 text score map및 geometry map의 여러 채널이 생성된다.
+1. pipeline의 개략적인 개요(그림 e)
+2. DenseBox의 구조를 따름
+3. FCN으로 이미지가 공급 되고, 여러 채널의 픽셀별 text score map및 geometry map이 생성됨
 
-예측된 채널 중 하나인 score map의 픽셀 값은 [0,1]범위의 값을 가진다.
-나머지 채널은 각 픽셀의 view로 부터 단어를 둘러싸는 geometries에 해당한다.
-score는 같은 지점에 예측된 geometry shape의 신뢰도를 나타낸다.
+4. text score map의 픽셀은 [0,1]사이의 값을 가짐
+5. text geometry map은 단어를 둘러싸는 기하 요소에 해당
+6. score는 같은 지점에 예측된 geometry shapes의 신뢰도를 나타냄
 
-rotated box(RBOX)및 quadrangle(QUAD)같은 text영역에 대한 두 geometry shapes로 실험하고,
-
-각 예측된 영역에 Thresholding을 적용한 다음,
-predefined threshold보다 높은 geometries의 점수가 유효한 것으로 간주되며, non-maximum-suppression을 위해 저장된다.
-NMS의 결과는 pipeline의 최종 출력으로 간주 된다.
+7. 텍스트 영역에 대한 rotated box(RBOX)및 quadrangle(QUAD)같은 두 geometry shapes로 실험 및 loss 함수 설계
+8. threshold보다 높은 geometries를 non-maximum-suppression을 위해 저장
+9. NMS로 최종 출력
 
 ### 3.2 Network Design
 
