@@ -78,7 +78,7 @@ line formation, word partition과 같은 여러 단계 및 요소로 구성된�
 3. geometry map은 단어를 둘러싸는 기하 요소에 해당
 4. score는 같은 지점에 예측된 geometry shapes의 신뢰도를 나타냄, [0,1]의 값을 가짐
 5. 텍스트 영역에 대한 rotated box(RBOX)및 quadrangle(QUAD)에 대해 각각의 geometry로 실험 및 loss 함수 설계
-6. 미리 지정한 threshold보다 높은 score, geometries를 적용하고, 이를  NMS로 최종 출력
+6. 미리 지정한 threshold보다 높은 score, geometries을 남기고, 이를 NMS을 통해 최종 결과를 출력
 
 ### 3.2 Network Design
 
