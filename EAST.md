@@ -33,6 +33,34 @@ rotate rectangle또는 quadrangles가 될 수 있는 제안된 텍스트 예측�
 3. 제안된 알고리즘은 정확성과 속도에서 이전 최점단 방식보다 뛰어난 성능을 달성함
 
 ## 2. Related Work
+
+텍스트 감지 및 인식은 컴퓨터 비전에서 활발한 연구 주제가 되었다.
+많은 영감을 주는 아이디어나 효율적인 방식이 조사되었다.
+종합적이고 자세한 분석은 survey논문에서 찾을 수 있다.
+
+기존 방식은 수동으로 features를 설계함
+Stroke Width Transform(SWT)및 Maximally Stable Extramal Regions(MSER),
+edge감지 또는 extremal region extraction을 통해 character 후보를 찾는다.
+Zhang 등은 텍스트의 대칭성과 영역 감지를 위한 다양한 features를 이용했다.
+FASText는 Stroke extraction을 위한 FAST감지기를 개조 및 수정한 fast text dectection system이다.
+그러나 이러한 방법은 특히, 낮은 해상도 및 기하 왜곡과 같은 상황을 다룰때 딥러닝 방식보다 뒤쳐진다.
+
+최근, 텍스트 감지 분야는 딥러닝 기반 방식이 점점 메인이 되고있다.
+Huang 등은 MSER로 text 후보를 찾고 false positives를 줄이기 위해 a deep convolutional network을 사용했다.
+Jaderberg 등의 방법은 sliding-window방식으로 이미지를 스캔하고 convolutional neural network로 각 크기에 대해 heatmap을 생성했다.
+이 후, word후보를 찾기 위해 CNN과 ACF를 사용하고 regression으로 불순물을 제거했다.
+Tian 등은 수직 anchors를 발전시키고, 수평의 text lines를 감지하기 위해 CNN-RNN모델을 구성했다.
+Zhang 등은 heatmap생성을 위해 FCN을 이용하고 방향 추적을 위해 component projection를 이용했다.
+이러한 방식들은 표준 벤치마크에서 우수한 성능을 얻었다.
+그러나 post filtering에 의한 false positive제거, candidate aggregation,
+line formation, word partition과 같은 여러 단계 및 요소로 구성된다.
+이러한 복잡한 단계와 요소는 exhaustive tuning을 요구하며,
+최적화 되지않은 성능을 이끌고 전체 pipeline의 처리 시간이 늘어난다.
+
+이 논문에서, 텍스트 감지의 최종 목표를 직접 타겟으로하는 FCN기반 pipeline을 고안한다.
+이 모델은 불필요한 중간 단계 및 요소를 버리며, end-to-end 방식을 가능할 수 있게 한다.
+최종 단일 경량 신경망 네트워크는 성능과 속도에서 모든 이전 방식을 능가한다. 
+
 ## 3. Methodology
 
 제안된 알고리즘의 핵심 요소는 text instances의 존재와 전체 이미지에서의 geometries를 직접 학습되는 것이다.
@@ -351,6 +379,8 @@ ICDAR2015 데이터셋에 500개 test images를 원래 해상도로 실행함
 ## 6. 공부 할 것들
 
 ```
+extremal region extraction
+exhaustive tuning
 hard negative mining
 smoothed-L1 loss
 extra normalization term
