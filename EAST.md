@@ -63,11 +63,13 @@ line formation, word partition과 같은 여러 단계 및 요소로 구성된�
 
 ## 3. Methodology
 
+```
 제안된 알고리즘의 핵심 요소는 전체 이미지에서 텍스트의 존재와 기하 요소를 직접적으로 예측하기 위해 훈련된 신경망 모델이다.
 이 모델은 각 픽셀별 words 또는 text lines의 예측을 출력하는 텍스트 감지에 적합한 fully-convolutional neural network이다.
 이 것은 candiate proposal, text region formation, word partition과 같은 중간 과정을 제거한다.
 후처리 단계는 예측된 기하학적 모양에 대해 오직 thresholding과 NMS만을 포함한다.
 이 감지기를 Efficient and Accuracy Scene Text detection pipeline(EAST)라고 명명한다.
+```
 
 ### 3.1 Pipeline
 
@@ -82,26 +84,38 @@ line formation, word partition과 같은 여러 단계 및 요소로 구성된�
 
 ### 3.2 Network Design
 
+```
 text감지를 위한 신경망 설계를 할 때, 다음과 같은 요소를 고려해야한다.
+```
 
 1. 단어의 크기가 매우 다양함
 2. 큰 크기의 단어는 신경망 나중 단계의 features가 필요함
 3. 반대로 작은 크기의 단어는 신경망 초기 단계의 features가 필요함
 4. 2, 3번의 이유로 다른 levels의 features를 사용해야함
 
-HyperNet은 이러한 조건을 만족하지만 커다란 feature maps에 많은 채널을 병합해 계산량이 크게 증가한다.
+```
+HyperNet은 위 조건을 만족하지만 커다란 feature maps에 많은 채널을 병합해 계산량이 크게 증가한다.
 따라서, upsampling branch를 작게 유지하면서 feature maps을 병합하는 U-shape를 채택했다.
 결과적으로 다른 levels의 features를 활용하고 계산량이 적은 신경망을 갖게 된다.
+```
 
 <img width="406" alt="스크린샷 2021-06-11 오전 9 25 23" src="https://user-images.githubusercontent.com/80749934/121613375-41569d80-ca97-11eb-8767-6a79f618fbd8.png">
 
+```
 위 그림은 모델 계략도이며, 세 가지 부분으로 나눠진다 : feature extractor(stem), feature-merging(branch), output layer
+```
 
-*stem*
+*feature extractor(stem)*
 
 1. ImageNet에서 사전 훈련되며, convolution및 pooling레이어를 가진 신경망
 2. stem에서 4가지의 features maps이 나오며, 각 크기는 입력 이미지의 1/32, 1/16, 1/8, 1/4이다.
-3. 실험에서 VGG16모델을 채택했으며, pooling-2에서 pooling-5까지의 feature maps이 얻어진다.
+3. 실험에서 PVANet및 VGG16모델을 채택했으며, pooling-2에서 pooling-5까지의 feature maps이 얻어진다.
+
+*feature-merging(branch)*
+
+```
+다음 식들은 branch관련 공식을 나타내며, 각 merging stage는 다음 단계로 요약된다.
+```
 
 <img width="400" alt="스크린샷 2021-06-11 오전 9 57 32" src="https://user-images.githubusercontent.com/80749934/121615293-7a910c80-ca9b-11eb-8779-3e379b252042.png">
 
@@ -111,16 +125,12 @@ HyperNet은 이러한 조건을 만족하지만 커다란 feature maps에 많은
 |![](https://latex.codecogs.com/gif.latex?h_i)|the merged feature map|
 |operator [·;·]|concatenation along the channel axis|
 
-*branch*
-
-위 그림과 식들은 branch관련 공식을 나타내며, 각 merging stage는 다음 단계로 요약된다.
-
 1. 현재 feature map크기가 2배가 되는 unpooling layer로 공급되고, 전 단계 feature map과 concatenate된다.
 2. conv1x1 bottleneck으로 channel의 수를 줄여 계산량을 줄인다.
 3. 정보를 융합하는 conv3x3 layer는 이 merging단계의 출력을 생산한다.
 4. 마지막 branch의 conv3x3 layer은 feature map을 output layer로 공급한다.
 
-*output*
+*output layer*
 
 1. score map : (conv1x1, 1 channel)연산으로 score map을 출력
 2. geometry map : (conv1x1, multi channel)연산으로 geometry map을 출력, RBOX 또는 QUAD가 됨
@@ -142,31 +152,38 @@ Q를 줄이기 위해, 각 ![](https://latex.codecogs.com/gif.latex?p_i)에 대�
 <img width="320" alt="스크린샷 2021-06-11 오전 11 14 34" src="https://user-images.githubusercontent.com/80749934/121620975-3eaf7480-caa6-11eb-8cf9-07b67961cf5d.png">
 
 1. 마주보는 변의 2개의 쌍에 대해 평균 길이가 긴 것을 'longer'로 결정한다.
-2. 각 변에 대해 0.3![](https://latex.codecogs.com/gif.latex?r_i), 0.3![](https://latex.codecogs.com/gif.latex?r_%7B%28i%7Emod%7E4%29&plus;1%7D)만큼 안쪽으로 끝점을 이동시켜 줄인다.
+2. 각 변에 대해 ![](https://latex.codecogs.com/gif.latex?0.3r_i%2C%200.3r_%7B%28i%7Emod%7E4%29%20&plus;%201%7D)만큼 안쪽으로 끝점을 이동시켜 줄인다.
 
 #### 3.3.2 Geometry Map Generation
 
-QUAD style로 데이터 셋의 text regions을 annoate하기 위해, 
-먼저 최소한 영역으로 region을 커버하는 회전된 직사각형을 생성한다.
-그런 다음, positive score를 가진 각 픽셀에 대해, text box의 4 boundaries까지의 거리를 계산하고,
-RBOX의 4 channels ground truth에 그 값을 넣는다.
-QUAD ground truth에 대해, 8-channel geometry map에서 positive score의 각 픽셀에 대한 값은,
-사각형의 4개의 정점으로부터 좌표 변화량이다.
+"RBOX"
+
+1. 최소한 영역으로 region을 커버하는 회전된 직사각형을 생성한다.
+2. positive score를 가진 각 픽셀에 대해, text box의 4 boundaries까지의 거리를 계산
+3. RBOX의 4 channels ground truth에 그 값을 넣는다.
+
+"QUAD"
+
+1. positive score를 가진 각 픽셀에 대해 사각형 4개의 정점으로부터 좌표 변화량을 나타낸다.
 
 ### 3.4 Loss Functions
 
 <img width="150" alt="스크린샷 2021-06-11 오전 11 43 30" src="https://user-images.githubusercontent.com/80749934/121623250-4ffa8000-caaa-11eb-8e6b-3c5f368add93.png">
 
-Ls와 Lg는 각각 score map과 geometry에 대한 loss를 나타내며, ![](https://latex.codecogs.com/gif.latex?%5Clambda_g)는 이 2개의 loss에 대한 가중치이다. 실제 실험에는 1로 세팅한다.
+```
+위 식은 최종 Loss공식이다.
+이 식에서 Ls와 Lg는 각각 score map과 geometry에 대한 loss를 나타낸다.
+![](https://latex.codecogs.com/gif.latex?%5Clambda_g)는 이 2개의 loss에 대한 가중치이며, 실제 실험에는 1로 세팅한다.
+```
 
 #### 3.4.1 Loss for Score Map
 
+```
 대부분 최첨단 감지 pipelines에서 학습 이미지는 target objects의 분균형한 분포를 해결하기 위해,
-balanced sampling과 hard negative mining으로 신중하게 처리된다.
-그렇게 하면 잠재적으로 network성능을 개선할 수 있다.
-그러나, 그러한 기술을 이용하는 것은 반드시 구별할 수 없는 단계, tuning을 위한 더 많은 parameters 더 복잡한 pipeline을 도입한다.
-
-더 간단한 training절차를 수월하게 하기 위해, class-balanced cross-entropy를 사용한다.
+balanced sampling과 hard negative mining으로 처리된다.
+그러면 성능을 개선하나, 그것은 복잡한 절차, 더 많은 paramters, 복잡한 pipeline을 도입한다.
+따라서, 더 간단한 학습을 위해 class-balanced cross-entropy를 사용한다.
+```
 
 <img width="456" alt="스크린샷 2021-06-11 오후 12 08 38" src="https://user-images.githubusercontent.com/80749934/121625172-ec725180-caad-11eb-92fb-b7a06ab4807a.png">
 
@@ -180,39 +197,54 @@ balanced sampling과 hard negative mining으로 신중하게 처리된다.
 
 #### 3.4.2 Loss for Geometries
 
-text감지에 한 가지 문제는 text크기가 natural scene images에서 매우 다양하다는 것이다.
+```
+텍스트 감지에 한 가지 문제는 텍스트 크기가 natural scene images에서 매우 다양하다는 것이다.
 L1 또는 L2 loss를 직접 사용하는 것은 loss bias를 더 크고 긴 text regions으로 이끈다.
-크고 작은 text region에 대해 정확한 text geometry 예측을 생성하기 위해, regression loss는 scale-invariant이어야한다.
-그러므로, RBox regression의 AABB에 IoU loss를 적용하고,
+크고 작은 text region에 대한 정확한 text geometry 예측을 생성하기 위해, regression loss는 scale-invariant이어야한다.
+그러므로, RBox regression의 AABB에서 IoU loss를 적용하고,
 QUAD regression에 대해 scale-normalize된 smoothed-L1을 사용한다.
+```
 
 *RBOX*
 
+```
 AABB part를 위해, 다른 크기의 objects에 대해 불변이므로 IoU loss를 채택한다.
+다음 식은 IoU loss를 나타낸다.
+```
+
+이 식에서 ![](https://latex.codecogs.com/gif.latex?%5Chat%7BR%7D)는 predicted AABB geometry, ![](https://latex.codecogs.com/gif.latex?R%5E*)는 ground truth를 나타낸다.
 
 <img width="428" alt="스크린샷 2021-06-11 오후 1 28 53" src="https://user-images.githubusercontent.com/80749934/121631030-4a586680-cab9-11eb-97aa-64d9fe1bcae0.png">
 
-![](https://latex.codecogs.com/gif.latex?%5Chat%7BR%7D)는 예측된 AABB geometry, ![](https://latex.codecogs.com/gif.latex?R%5E*)는 대응하는 ground truth를 나타낸다.
+```
+다음 식은 교집합 직사각형의 가로와 세로를 나타낸다.
+d1, d2, d3, d4는 픽셀에서 각각 사각형의 left, top, right, bottom까지의 거리를 나타낸다. 
+```
 
 <img width="300" alt="스크린샷 2021-06-11 오후 1 29 17" src="https://user-images.githubusercontent.com/80749934/121631039-4debed80-cab9-11eb-8d29-23f675bf690a.png">
 
-교차된 직사각형의 가로와 세로는 위 식과 같다.
-d1, d2, d3, d4는 픽셀에서 각각 사각형의 left, top, right, bottom까지의 거리를 나타낸다. 
+```
+다음 식은 직사각형의 합집합 나타낸다.
+결과적으로 위, 아래 식으로 intersection / union area는 쉽게 계산된다.
+```
 
 <img width="338" alt="스크린샷 2021-06-11 오후 1 29 40" src="https://user-images.githubusercontent.com/80749934/121631040-4e848400-cab9-11eb-97ef-ddab15e7d4ca.png">
 
-위 식은 union area를 나타낸다.
-그러므로 intersection / union area는 쉽게 계산된다.
+```
+다음 식은 각도에 대한 loss이다.
+```
+
+이 식에서 ![](https://latex.codecogs.com/gif.latex?%5Chat%7B%5Ctheta%7D)은 예측된 angle이고 ![](https://latex.codecogs.com/gif.latex?%5Ctheta%5E*)은 ground truth이다.
 
 <img width="266" alt="스크린샷 2021-06-11 오후 1 29 50" src="https://user-images.githubusercontent.com/80749934/121631042-4f1d1a80-cab9-11eb-81b9-f5a49ff5d821.png">
 
-위 식은 각도에 대한 loss이다.
-![](https://latex.codecogs.com/gif.latex?%5Chat%7B%5Ctheta%7D)은 예측된 angle이고 ![](https://latex.codecogs.com/gif.latex?%5Ctheta%5E*)은 ground truth이다.
+```
+다음 식은 최종 geometry loss이며 AABB loss와 angle loss의 가중치 합이다.
+```
+
+이 실험에서 ![](https://latex.codecogs.com/gif.latex?%5Clambda_%5Ctheta)는 10으로 세팅한다.
 
 <img width="209" alt="스크린샷 2021-06-11 오후 1 30 00" src="https://user-images.githubusercontent.com/80749934/121631046-4fb5b100-cab9-11eb-9bdf-0fd2939dc113.png">
-
-위 식 geometry loss는 AABB loss와 angle loss의 가중치 합이다.
-이 실험에서 ![](https://latex.codecogs.com/gif.latex?%5Clambda_%5Ctheta)는 10으로 세팅한다.
 
 회전 각에 상관 없이 AABB의 Loss를 구한다.
 이 것은 각도가 완벽히 예측될 때, 사각형 IoU의 근사치라고 볼 수 있다.
