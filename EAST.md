@@ -352,14 +352,11 @@ COCO-Text를 제외하고, 모든 text detection 데이터 셋은 object detecti
 1. F-score에서 0.0614, Recall에서 0.053넘는 개선
 2. COCO-Text가 크고 까다로운 벤치마크임을 고려하면, 제안된 알고리즘의 장점이 확인됨
 
-이전 방법에 비해 제안된 알고리즘은 최종 목표를 직접 타겟으로하고 중복 프로세스를 제거하는 간단한 텍스트 감지 파이프라인이,
-복잡한, 대규모 신경망 모델보다 성능이 능가할 수 있음을 증명한다.
-
 *MSRA-TD500*
 
 1. 최고 성능(Ours+PVANET2x)에서 이전 보다 F-score는 0.0208, precision은 0.0428만큼 개선
 2. VGG16의 수용 영역이 PVANET및 PVANET2x보다 작아 PVANET및 PVANET2x성능이 좋음
-3. MSRA-TD500의 검증 프로토콜은 word level대신 line level 텍스트 감지 알고리즘 출력을 
+3. MSRA-TD500의 검증 프로토콜은 word level대신 line level 텍스트 감지 알고리즘 출력을 요구함
 
 *ICDAR2013*
 
@@ -388,6 +385,7 @@ ICDAR2015 데이터셋에 500개 test images를 원래 해상도로 실행함
 ## 5. Conclusion and Future Work
 
 적절한 손실 함수를 통합함으로써, 감지기는 텍스트 영역에 대해 rotated rectangles또는 quadrangles를 예측할 수 있다.
+
 향후 연구 방향
 1. curved text를 직접 감지하도록 geometry 공식을 조정
 2. detector와 recognition 통합
