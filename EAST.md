@@ -82,21 +82,24 @@ line formation, word partition과 같은 여러 단계 및 요소로 구성된�
 
 ### 3.2 Network Design
 
-text감지를 위해 neural networks를 설계할 때, 몇 가지 요소를 고려해야한다.
-단어 영역의 크기는 매우 다양해서, 큰 크기의 단어의 존재를 결정하는 것은 neural network의 나중 단계에서 features을 필요로 하고,
-반대로, 작은 크기의 단어를 둘러싸는 정확한 geometry를 예측하는 것은 초기 단계에서 low-level정보를 필요로한다.
-그러므로, 이러한 요구를 충족하기 위해서 다른 levels의 features를 사용해야한다.
-HyperNet은 feature maps에 대해 이러한 조건을 만족한다.
-하지만 커다란 feature maps에서 많은 채널을 병합하는 것은 나중 단계이서 계산 오버헤드가 크게 증가할 것이다.
+text감지를 위한 신경망 설계를 할 때, 다음과 같은 요소를 고려해야한다.
 
-이를 해결하기 위해, upsampling branch를 작게 유지하면서 feature maps을 병합하는 U-shape의 아이디어를 채택했다.
-결국 다른 levels의 features를 활용하고 계산 비용을 적게유지할 수 있는 network를 갖게 된다.
+1. 단어의 크기가 매우 다양함
+2. 큰 크기의 단어는 신경망 나중 단계의 features가 필요함
+3. 반대로 작은 크기의 단어는 신경망 초기 단계의 features가 필요함
+4. 2, 3번의 이유로 다른 levels의 features를 사용해야함
+
+HyperNet은 이러한 조건을 만족한다.
+하지만 커다란 feature maps에 많은 채널을 병합하는 것은 계산 오버헤드가 크게 증가할 것이다.
+
+이를 해결하기 위해, upsampling branch를 작게 유지하면서 feature maps을 병합하는 U-shape를 채택했다.
+결과적으로 다른 levels의 features를 활용하고 계산 비용을 적게 유지할 수 있는 network를 갖게 된다.
 
 <img width="406" alt="스크린샷 2021-06-11 오전 9 25 23" src="https://user-images.githubusercontent.com/80749934/121613375-41569d80-ca97-11eb-8767-6a79f618fbd8.png">
 
-위 그림은 모델의 계략도를 나타낸다.
-이 모델은 세 가지 부분으로 나눠진다 - feature extractor(stem), feature-merging(branch), output layer
+위 그림은 모델 계략도이며, 세 가지 부분으로 나눠진다 : feature extractor(stem), feature-merging(branch), output layer
 
+1. 
 stem은 ImageNet데이터 셋에서 사전훈련된 convolutional network일 수 있다.
 feature maps의 4가지 levels은 stem에서 얻고, 각 크기는 입력 이미지의 1/32, 1/16, 1/8, 1/4이다.
 위 그림은 PVANet을 나타낸다.
