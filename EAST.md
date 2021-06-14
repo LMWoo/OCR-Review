@@ -291,6 +291,8 @@ MSRA-TD500에서, 3가지 설정에서 제안된 알고리즘이 우수한 결�
 최고 성적(Ours+PVANET2x)에서 이전 발표된 최첨단 방식보다 개선된 것을 보여준다.
 
 VGG16을 장착한 알고리즘 보다 PVANET및 PVANET2x를 장착한 알고리즘 성능이 훨씬 좋다.
+주된 이유는 VGG의 수용 영역이 PVANET및 PVANET2x보다 작기 때문이다.
+MSRA-TD500의 검증 프로토콜은 word level대신 line level 텍스트 감지 알고리즘 출력을 요구한다.
 
 
 
