@@ -89,21 +89,19 @@ text감지를 위한 신경망 설계를 할 때, 다음과 같은 요소를 고
 3. 반대로 작은 크기의 단어는 신경망 초기 단계의 features가 필요함
 4. 2, 3번의 이유로 다른 levels의 features를 사용해야함
 
-HyperNet은 이러한 조건을 만족한다.
-하지만 커다란 feature maps에 많은 채널을 병합하는 것은 계산 오버헤드가 크게 증가할 것이다.
-
-이를 해결하기 위해, upsampling branch를 작게 유지하면서 feature maps을 병합하는 U-shape를 채택했다.
-결과적으로 다른 levels의 features를 활용하고 계산 비용을 적게 유지할 수 있는 network를 갖게 된다.
+HyperNet은 이러한 조건을 만족하지만 커다란 feature maps에 많은 채널을 병합해 계산량이 크게 증가한다.
+따라서, upsampling branch를 작게 유지하면서 feature maps을 병합하는 U-shape를 채택했다.
+결과적으로 다른 levels의 features를 활용하고 계산량이 적은 신경망을 갖게 된다.
 
 <img width="406" alt="스크린샷 2021-06-11 오전 9 25 23" src="https://user-images.githubusercontent.com/80749934/121613375-41569d80-ca97-11eb-8767-6a79f618fbd8.png">
 
 위 그림은 모델 계략도이며, 세 가지 부분으로 나눠진다 : feature extractor(stem), feature-merging(branch), output layer
 
-1. 
-stem은 ImageNet데이터 셋에서 사전훈련된 convolutional network일 수 있다.
-feature maps의 4가지 levels은 stem에서 얻고, 각 크기는 입력 이미지의 1/32, 1/16, 1/8, 1/4이다.
-위 그림은 PVANet을 나타낸다.
-실험에서, 잘 알려진 VGG16모델을 채택했으며, pooling-2에서 pooling-5까지의 feature maps이 얻어진다.
+*stem*
+
+1. ImageNet에서 사전 훈련되며, convolution및 pooling레이어를 가진 신경망
+2. stem에서 4가지의 features maps이 나오며, 각 크기는 입력 이미지의 1/32, 1/16, 1/8, 1/4이다.
+3, 실험에서 VGG16모델을 채택했으며, pooling-2에서 pooling-5까지의 feature maps이 얻어진다.
 
 <img width="400" alt="스크린샷 2021-06-11 오전 9 57 32" src="https://user-images.githubusercontent.com/80749934/121615293-7a910c80-ca9b-11eb-8779-3e379b252042.png">
 
