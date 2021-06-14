@@ -261,7 +261,38 @@ COCO-Text를 제외하고, 모든 text detection 데이터 셋은 object detecti
 2. 너무 작아, 충분히 GPU 병렬 연산이 가능
 3. 기존 PVANET 채널의 2배인 PVANET2x를 채택함
 4. PVANET2x는 기존 보다 약간 느리지만 더 많은 병렬 처리 연산을 수행함
-5. 마지막 출력의 수용역역은 809이며, VGG16보다 훨씬 크다.
+5. 마지막 출력의 수용영역은 809이며, VGG16보다 훨씬 크다.
+
+### 4.3 Qualitative Results
+
+제안된 알고리즘은 불균일한 조명, 낮은 해상도, 다양한 방향, 투영으로 인한 왜곡과 같은 어려운 상황을 다룰 수 있다.
+게다가, NMS에 voting mechanism 때문에, 다양한 모양의 텍스트를 가진 videos에서 높은 안정성을 보여준다.
+
+훈련된 모델은 매우 정확한 geometry maps과 score map을 생산하고,
+다양한 방향의 텍스트 감지를 쉽게 할 수 있다.
+
+### 4.4 Quantitative Results
+
+이러한 방식은 ICDAR2015및 COCO-Text에서 큰 차이로 이전의 최첨단 방식보다 뛰어나다.
+
+ICDAR2015의 이미지가 제안된 모델에 원래 크기로 공급될 때 F-score 0.7820을 달성한다.
+같은 네트워크를 사용하여 여러 크기로 테스트 했을 때, F-score 0.8072이며 가장좋은 방식보다 0.16 높다.
+
+VGG16의 결과와 비교하면, QUAD출력 일 때 0.0924, RBOX출력 일 때 0.116만큼 더 뛰어나다.
+한편, 네트워크는 꽤 효율적이다.
+
+COCO-Text에서, 3가지 설정에서 제안된 알고리즘이 이전 최고 성능을 가진 것 보다 더 높은 정확성을 보여준다.
+특히, F-score에서 0.0614, Recall에서 0.053넘는 개선은, COCO-Text가 크고 까다로운 벤치마크임을 고려하면, 제안된 알고리즘의 장점을 확인한다.
+
+이전 방법에 비해 제안된 알고리즘은 최종 목표를 직접 타겟으로하고 중복 프로세스를 제거하는 간단한 텍스트 감지 파이프라인이,
+복잡한, 대규모 신경망 모델보다 성능이 능가할 수 있음을 증명한다.
+
+MSRA-TD500에서, 3가지 설정에서 제안된 알고리즘이 우수한 결과를 달성했다.
+최고 성적(Ours+PVANET2x)에서 이전 발표된 최첨단 방식보다 개선된 것을 보여준다.
+
+VGG16을 장착한 알고리즘 보다 PVANET및 PVANET2x를 장착한 알고리즘 성능이 훨씬 좋다.
+
+
 
 ## 5. Conclusion and Future Work
 ## 6. 공부 할 것들
@@ -271,6 +302,7 @@ hard negative mining
 smoothed-L1 loss
 extra normalization term
 Locality-Aware NMS
+voting mechanism
 class-balanced cross-entropy
 candiate proposal
 ```
