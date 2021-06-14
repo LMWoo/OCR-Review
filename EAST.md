@@ -6,60 +6,40 @@
 # 논문 요약
 ## 1. Introduction
 
-최근, 자연 장면에 포함된 텍스트 정보를 추출하고 이해하는 것이 점점 중요해지고 유명해졌다.
-그리고 그것은 ICDAR 컨테스트의 전례없는 많은 참가자와 NIST의 TRAT2016의 시작으로 입증된다.
-
-텍스트 감지는 텍스트 정보를 추출하고 이해하는데 중요한 역할을 한다.
-이전 텍스트 감지는 이미 여러 벤치마크에서 유망한 성능을 얻었다.
-텍스트 감지의 핵심은 배경으로부터 텍스트를 구별하기위한 features를 설계하는 것이다.
-이전에는 features를 수동으로 설계했고, 딥러닝 기반 방식의 features는 효율적으로 학습되었다.
-
-그러나, 기존방식은 대부분 여러 단계 및 요소로 구성되어 최적화 되지 않고 시간이 많이 걸린다.
-그러므로, 이러한 방식의 정확성과 효율성은 만족스럽지않다.
-
-이 논문에서는 오직 2단계를 가진 텍스트 감지 pipeline을 소개한다.
-이 pipeline은 직접적으로 word또는 text-line예측을 하는 fully convolutional network(FCN)모델을 사용한다.
-그리고 중복되고 느린 중간 단계를 제외한다.
-rotate rectangle또는 quadrangles가 될 수 있는 제안된 텍스트 예측은 최종 결과를 산출하기위해 Non-Max Suppression으로 보내진다.
-기존 방식과 비교하여, 제안된 알고리즘은 훨씬 향상된 성능을 달성하며,
-표준 벤치마크에서 qualitative및 quantitative실험에 따라 매우 빨리 실행된다.
-
-특히, ICDAR2015에서 0.7820, MSRA-TD500에서 0.7608, COCO-Text에서 0.3945의 F-score를 달성하여,
-이전 최첨단 알고리즘 보다 뛰어난 성능을 달성했다.
-동시에, Titan-X GPU, 720p해상도에서 최고 성능 모델에 대해 13.2fps, 최고 빠른 모델에 대해 16.8fps를 달성한다.
-
-1. 2단계로 구성된 텍스트 감지기 : a Fully Convolutional Network및 NMS(직접 텍스트 영역을 생산하고, 중복되고 시간걸리는 중간단계 제외
-2. 파이프라인은 geometric 모양이 rotated boxes또는 quadrangles가 될 수 있는 word level 또는 line level예측을 생산하는데 유연함
-3. 제안된 알고리즘은 정확성과 속도에서 이전 최점단 방식보다 뛰어난 성능을 달성함
+1. 기존방식은 여러 단계 및 요소로 구성되어 최적화 되지 않고 시간이 많이 걸림
+2. 따라서, 2단계의 텍스트 감지 pipeline을 제안함
+3. 첫 번째는 직접 word또는 text-line예측을 하는 fully convolutional network(FCN)모델을 이용
+4. 두 번째는 예측된 word또는 text-line을 Non-Max Suppression으로 보내 최종 결과를 산출
+5. 제안된 알고리즘은 정확성과 속도에서 이전 최점단 방식보다 뛰어난 성능을 달성함
 
 ## 2. Related Work
 
-텍스트 감지 및 인식은 컴퓨터 비전에서 활발한 연구 주제가 되었다.
-많은 영감을 주는 아이디어나 효율적인 방식이 조사되었다.
-종합적이고 자세한 분석은 survey논문에서 찾을 수 있다.
+*딥러닝 이전*
 
-기존 방식은 수동으로 features를 설계함
-Stroke Width Transform(SWT)및 Maximally Stable Extramal Regions(MSER),
-edge감지 또는 extremal region extraction을 통해 character 후보를 찾는다.
-Zhang 등은 텍스트의 대칭성과 영역 감지를 위한 다양한 features를 이용했다.
-FASText는 Stroke extraction을 위한 FAST감지기를 개조 및 수정한 fast text dectection system이다.
+1. SWT, MSER - edge감지 또는 extremal region extraction을 통해 character후보 찾음
+2. Zhang 등은 텍스트의 대칭성과 영역 감지를 위한 다양한 features를 이용함
+3. FASText는 Stroke extraction을 위한 FAST감지기를 개조 및 수정한 fast text dectection system
+
 그러나 이러한 방법은 특히, 낮은 해상도 및 기하 왜곡과 같은 상황을 다룰때 딥러닝 방식보다 뒤쳐진다.
 
-최근, 텍스트 감지 분야는 딥러닝 기반 방식이 점점 메인이 되고있다.
-Huang 등은 MSER로 text 후보를 찾고 false positives를 줄이기 위해 a deep convolutional network을 사용했다.
-Jaderberg 등의 방법은 sliding-window방식으로 이미지를 스캔하고 convolutional neural network로 각 크기에 대해 heatmap을 생성했다.
-이 후, word후보를 찾기 위해 CNN과 ACF를 사용하고 regression으로 불순물을 제거했다.
-Tian 등은 수직 anchors를 발전시키고, 수평의 text lines를 감지하기 위해 CNN-RNN모델을 구성했다.
-Zhang 등은 heatmap생성을 위해 FCN을 이용하고 방향 추적을 위해 component projection를 이용했다.
-이러한 방식들은 표준 벤치마크에서 우수한 성능을 얻었다.
-그러나 post filtering에 의한 false positive제거, candidate aggregation,
-line formation, word partition과 같은 여러 단계 및 요소로 구성된다.
-이러한 복잡한 단계와 요소는 exhaustive tuning을 요구하며,
-최적화 되지않은 성능을 이끌고 전체 pipeline의 처리 시간이 늘어난다.
+*딥러닝*
 
-이 논문에서, 텍스트 감지의 최종 목표를 직접 타겟으로하는 FCN기반 pipeline을 고안한다.
-이 모델은 불필요한 중간 단계 및 요소를 버리며, end-to-end 방식을 가능할 수 있게 한다.
-최종 단일 경량 신경망 네트워크는 성능과 속도에서 모든 이전 방식을 능가한다. 
+
+1. Huang 등은 MSER로 text 후보를 찾고 false positives를 줄이기 위해 a deep convolutional network을 사용함
+2. Jaderberg 등은 sliding-window방식으로 이미지를 스캔하고 convolutional neural network로 각 크기에 대해 heatmap을 생성한 후,
+word후보를 찾기 위해 CNN과 ACF를 사용하고 regression으로 불순물을 제거함
+3. Tian 등은 수직 anchors를 발전시키고, 수평의 text lines를 감지하기 위해 CNN-RNN모델을 구성함
+4. Zhang 등은 heatmap생성을 위해 FCN을 이용하고 방향 추적을 위해 component projection를 이용함
+
+```
+이러한 방식들은 표준 벤치마크에서 우수한 성능을 얻었지만,
+post filtering에 의한 false positive제거, candidate aggregation, line formation, word partition으로 구성된다.
+이러한 복잡한 단계와 요소는 exhaustive tuning을 요구하며 최적화 되지않은 성능을 이끌고 전체 pipeline의 처리 시간이 늘어난다.
+
+이 논문에서는 텍스트 감지의 최종 목표를 직접 타겟으로하는 FCN기반 pipeline을 고안한다.
+이 모델은 불필요한 중간 단계 및 요소를 없애며, end-to-end 방식을 가능할 수 있게 한다.
+최종 신경망 네트워크는 성능과 속도에서 이전 방식들을 능가한다. 
+```
 
 ## 3. Methodology
 
@@ -246,14 +226,18 @@ d1, d2, d3, d4는 픽셀에서 각각 사각형의 left, top, right, bottom까�
 
 <img width="209" alt="스크린샷 2021-06-11 오후 1 30 00" src="https://user-images.githubusercontent.com/80749934/121631046-4fb5b100-cab9-11eb-9bdf-0fd2939dc113.png">
 
-회전 각에 상관 없이 AABB의 Loss를 구한다.
-이 것은 각도가 완벽히 예측될 때, 사각형 IoU의 근사치라고 볼 수 있다.
-훈련 중에는 해당되지 않지만 네트워크가 R을 예측하는 방법을 배우도록 올바른 기울기를 부과 할 수 있다.
+```
+AABB의 Loss를 회전 각에 관계없이 계산하였다.
+이 것은 각도가 완벽히 예측 될 때, 사각형 IoU의 근사처럼 보여 질 수 있다.
+훈련 중에 그런 경우는 없지만, R을 예측하는 것을 학습하도록 올바를 기울기를 부과 할 수 있다.
+```
 
 *QUAD*
 
-특히 한 쪽으로 긴, 단어의 사각형을 위해 설계된 extra normalization term이 추가하여 smoothed-L1 loss를 확장한다.
+```
+한 방향으로 더 긴 단어의 사각형을 위해 설계된 extra normalization term이 추가하여 smoothed-L1 loss를 확장한다.
 Q의 모든 좌표 값을 다음과 같은 순서대로 설정한다.
+```
 
 <img width="310" alt="스크린샷 2021-06-11 오후 2 32 51" src="https://user-images.githubusercontent.com/80749934/121635862-f2722d80-cac1-11eb-984b-bab5c248c235.png">
 
@@ -261,29 +245,31 @@ Q의 모든 좌표 값을 다음과 같은 순서대로 설정한다.
 
 <img width="392" alt="스크린샷 2021-06-11 오후 2 34 01" src="https://user-images.githubusercontent.com/80749934/121635968-277e8000-cac2-11eb-87c8-b54267a7461a.png">
 
-정규화 term ![](https://latex.codecogs.com/gif.latex?N_%7BQ%5E*%7D)는 밑에 식에 의해 사각형 변중 가장 짧은 변이다.
-그리고 ![](https://latex.codecogs.com/gif.latex?P_Q)는 다른 정점 순서를 가진 ![](https://latex.codecogs.com/gif.latex?Q%5E*)의 등가 사각형의 집합이다. training데이터 셋에서 사각형 annotation이 일치하지 않아 순서 변경이 필요하다.
+다음 식에 의해, 정규화 term ![](https://latex.codecogs.com/gif.latex?N_%7BQ%5E*%7D)는 사각형 변중 가장 짧은 변이다.
+그리고 ![](https://latex.codecogs.com/gif.latex?P_Q)는 다른 정점 순서를 가진 ![](https://latex.codecogs.com/gif.latex?Q%5E*)의 같은 사각형의 집합이다. training데이터 셋에서 사각형 annotation이 일치하지 않아 순서 변경이 필요하다.
 
 <img width="292" alt="스크린샷 2021-06-11 오후 2 41 45" src="https://user-images.githubusercontent.com/80749934/121636662-331e7680-cac3-11eb-9da3-ea9a9a203b3a.png">
 
 ### 3.5 Training
 
+```
 이 network는 ADAM optimizer를 이용해 학습된다.
 ADAM의 학습률은 1e-3에서 시작하여 27300 batch마다 1/10씩 줄어 1e-5에서 멈춘다.
 학습 속도를 높이기 위해, 이미지에서 균일하게 512x512크기로 샘플링하여 24크기의 미니 배치를 형성한다.
 이 network는 성능 개선이 멈출 때 까지 계속 train된다.
+```
 
 ### 3.6 Locality-Aware NMS
 
-마지막 결과를 형성하기 위해, thresholding 이후 살아남은 geometries가 NMS에 의해 병합되야한다.
-단순 NMS알고리즘은 geometries후보의 수 n에 ![](https://latex.codecogs.com/gif.latex?O%28n%5E2%29)의 속도로 실행되며,
+```
+최종 결과를 위해, thresholding후 남은 geometries가 NMS에 의해 병합되야한다.
+단순 NMS알고리즘은 geometries후보의 수 n에 O(n^2)의 속도로 실행되며
 예측으로 부터 수만 개의 geometries를 마주하기 때문에 받아들일 수 없다.
 
-가까운 픽셀에서의 geometries가 서로 연관 된다는 경향이 있다는 전제 하에,
-geometries를 row by row로 병합할 것을 제안, geometries를 병합하는 동안,
-현재 geometry가 마지막 병합된 것과 반복적으로 병합될 것이다.
-이 개선된 기술은 가장 빠를때, O(n)로 실행된다.
-최악의 경우 기존 알고리즘 속도와 같지만, 이 알고리즘은 실질적으로 빨리 실행된다.
+가까운 픽셀으로 부터 geometries가 서로 연관 된다는 하에 geometries를 row by row로 병합할 것을 제안한다.
+geometries를 병합하는 동안 현재 geometry가 마지막 병합된 것과 반복적으로 병합될 것이다.
+이 개선된 기술은 가장 빠를때 O(n)로 실행되며 최악의 경우 기존 알고리즘 속도와 같다.
+```
 
 <img width="400" alt="스크린샷 2021-06-12 오전 10 10 25" src="https://user-images.githubusercontent.com/80749934/121760654-dd030f00-cb66-11eb-887a-009f3ccf9afd.png">
 
@@ -291,9 +277,6 @@ WEIGHTEDMERGE(g, p)에서, 병합된 사각형의 좌표는 두 개의 사각형
 구체적으로, a = WEIGHTEDMERGE(g, p)이면,
 ![](https://latex.codecogs.com/gif.latex?a_i%20%3D%20V%28g%29g_i%20&plus;%20V%28p%29p_i) 및 ![](https://latex.codecogs.com/gif.latex?V%28a%29%20%3D%20V%28g%29%20&plus;%20V%28p%29),
 여기서 ![](https://latex.codecogs.com/gif.latex?a_i)는 a의 i번 좌표이며, V(a)는 a의 geometry점수이다.
-
-실제로, 표준 NMS절차에서 처럼 geometryes를 'selecting'보다 'averaging'하는 것에는 미묘한 차이가 있다.
-그럼에도 불구하고, 여전히 기능 설명을 위해 NMS라는 용어를 사용한다.
 
 ## 4. Experiments
 
@@ -326,9 +309,11 @@ WEIGHTEDMERGE(g, p)에서, 병합된 사각형의 좌표는 두 개의 사각형
 
 ### 4.2 Base Networks
 
+```
 COCO-Text를 제외하고, 모든 text detection 데이터 셋은 object detection데이터 셋에 비해 작다.
 그러므로, 단일 network를 채택하면, overfitting또는 under-fitting때문에 어려움을 겪을 수 있다.
 제안된 프레임워크를 평가하기 위해, 모든 데이터 셋에서 다른 출력의 기하 구조를 가진 3가지 base networks를 사용한다.
+```
 
 *VGG16*
 
@@ -345,15 +330,18 @@ COCO-Text를 제외하고, 모든 text detection 데이터 셋은 object detecti
 
 ### 4.3 Qualitative Results
 
+```
 제안된 알고리즘은 불균일한 조명, 낮은 해상도, 다양한 방향, 투영으로 인한 왜곡과 같은 어려운 상황을 다룰 수 있다.
 게다가, NMS에 voting mechanism 때문에, 다양한 모양의 텍스트를 가진 videos에서 높은 안정성을 보여준다.
 
 훈련된 모델은 매우 정확한 geometry maps과 score map을 생산하고,
 다양한 방향의 텍스트 감지를 쉽게 할 수 있다.
+```
 
 ### 4.4 Quantitative Results
 
-이러한 방식은 ICDAR2015및 COCO-Text에서 큰 차이로 이전의 최첨단 방식보다 뛰어나다.
+```
+제안된 ICDAR2015및 COCO-Text에서 큰 차이로 이전의 최첨단 방식보다 뛰어나다.
 
 ICDAR2015의 이미지가 제안된 모델에 원래 크기로 공급될 때 F-score 0.7820을 달성한다.
 같은 네트워크를 사용하여 여러 크기로 테스트 했을 때, F-score 0.8072이며 가장좋은 방식보다 0.16 높다.
@@ -376,9 +364,11 @@ MSRA-TD500의 검증 프로토콜은 word level대신 line level 텍스트 감�
 
 추가적으로, ICDAR2013에서 recall, precision, F-score에서 0.8267, 0.9264, 0.8737을 달성했다.
 이전 최점단 성능과 비슷한 수준이다.
+```
 
 ### 4.5 Speed Comparision
 
+```
 ICDAR2015 데이터셋에 500개 test images를 원래 해상도로 실행함
 단일 NVIDIA Titan X그래픽 타드 및 Intel E5-2670 v3(2.30 GHz)CPU로 실험
 제안된 방법의 후처리는 thresholding및 NMS를 포함, 다른 방식은 원래의 논문을 참고
@@ -386,12 +376,15 @@ ICDAR2015 데이터셋에 500개 test images를 원래 해상도로 실행함
 제안된 알고리즘은 이전 최첨단 알고리즘보다 훨씬 뛰어나며, 간단하고 효율적인 pipeline으로 계산 비용이 훨씬적다.
 가장 빠른 방식(Ours+PVANET)은 16.8FPS로 실행, 가장 느린 방식(Ours+VGG16)은 6.52FPS로 실행됨
 최고 성능(Ours+PVANET2x)는 13.2FPS로 실행됨
+```
 
 ### 4.6 Limitations
 
+```
 탐지기가 다룰 수 있는 텍스트의 최대 크기는 수용영역에 비례한다.
 이는 이미지에 text lines처럼 긴 텍스트 영역을 예측하는데 제한된다.
 또한, ICDAR2015데이터 셋은 작은 영역의 텍스트만 가지므로 수직 텍스트에 대해 부정확한 예측을 할 수 있다.
+```
 
 ## 5. Conclusion and Future Work
 
