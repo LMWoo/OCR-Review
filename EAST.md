@@ -26,7 +26,7 @@
 
 
 1. [Huang](http://whuang.org/papers/whuang2014_eccv.pdf) 등은 MSER로 text 후보를 찾고 false positives를 줄이기 위해 a deep convolutional network을 사용함
-2. [Jaderberg p1-20](https://www.robots.ox.ac.uk/~vgg/publications/2014/Jaderberg14/jaderberg14.pdf) 등은 sliding-window방식으로 이미지를 스캔하고 convolutional neural network로 각 크기에 대해 heatmap을 생성한 후,
+2. [Jaderberg](https://www.robots.ox.ac.uk/~vgg/publications/2014/Jaderberg14/jaderberg14.pdf) 등은 sliding-window방식으로 이미지를 스캔하고 convolutional neural network로 각 크기에 대해 heatmap을 생성한 후,
 word후보를 찾기 위해 CNN과 ACF를 사용하고 regression으로 불순물을 제거함
 3. [Tian p56-72](https://arxiv.org/pdf/1609.03605.pdf) 등은 수직 anchors를 발전시키고, 수평의 text lines를 감지하기 위해 CNN-RNN모델을 구성함
 4. [Zhang](https://arxiv.org/pdf/1604.04018.pdf) 등은 heatmap생성을 위해 FCN을 이용하고 방향 추적을 위해 component projection를 이용함
