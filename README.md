@@ -4,9 +4,8 @@ OCR관련 논문을 리딩, 정리하여  OCR관련 기술과 딥러닝 지식�
 
 ## summary list
 
+[CRAFT](CRAFT.md)
+
 [EAST](EAST.md)
 
 [FOTS](FOTS.md)
-
-[CRAFT](CRAFT.md)
-
