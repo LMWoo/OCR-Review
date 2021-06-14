@@ -101,7 +101,7 @@ HyperNet은 이러한 조건을 만족하지만 커다란 feature maps에 많은
 
 1. ImageNet에서 사전 훈련되며, convolution및 pooling레이어를 가진 신경망
 2. stem에서 4가지의 features maps이 나오며, 각 크기는 입력 이미지의 1/32, 1/16, 1/8, 1/4이다.
-3, 실험에서 VGG16모델을 채택했으며, pooling-2에서 pooling-5까지의 feature maps이 얻어진다.
+3. 실험에서 VGG16모델을 채택했으며, pooling-2에서 pooling-5까지의 feature maps이 얻어진다.
 
 <img width="400" alt="스크린샷 2021-06-11 오전 9 57 32" src="https://user-images.githubusercontent.com/80749934/121615293-7a910c80-ca9b-11eb-8779-3e379b252042.png">
 
@@ -111,23 +111,21 @@ HyperNet은 이러한 조건을 만족하지만 커다란 feature maps에 많은
 |![](https://latex.codecogs.com/gif.latex?h_i)|the merged feature map|
 |operator [·;·]|concatenation along the channel axis|
 
-위 그림과 식들은 feature-merging branch관련 공식을 나타낸다.
-각 merging stage는 다음 단계로 요약된다.
-1. 마지막 단계의 feature map크기를 2배로 늘리는 unpooling layer로 공급되고, 현재 feature map과 concatenate된다.
-2. conv1x1 bottleneck은 channel의 수를 줄여 계산량을 줄인다.
+*branch*
+
+위 그림과 식들은 branch관련 공식을 나타내며, 각 merging stage는 다음 단계로 요약된다.
+
+1. 현재 feature map크기가 2배가 되는 unpooling layer로 공급되고, 전 단계 feature map과 concatenate된다.
+2. conv1x1 bottleneck으로 channel의 수를 줄여 계산량을 줄인다.
 3. 정보를 융합하는 conv3x3 layer는 이 merging단계의 출력을 생산한다.
-4. 마지막 단계의 conv3x3 layer는 merging branch의 마지막 feature map을 생산하며, output layer에 이를 공급한다.
+4. 마지막 branch의 conv3x3 layer은 feature map을 output layer로 공급한다.
 
-branch단계에서 convolutions에 대한 channels의 수를 작게 유지하며, 
-stem에 대한 계산 overhead의 극히 일부만 추가하여 효율적인 network계산을 한다.
-마지막 output layer는 feature map의 32개 channels을 score map의 1 channel, 
-geometry map의 multi-channel channel로 산출하는 conv1x1연산자를 포함한다.
-geometry출력은 RBOX또는 QUAD중 하나가 될 수 있다.
+*output*
 
-RBOX는 axis-aligned bounding box(AABB)R의 4 channels, rotation angle의 1 channel로 나타낸다.
-R은 pixel 위치에서 각각 사각형의 boundaries인 left, top, right, bottom의 거리를 나타낸다.
-
-QUAD는 pixel 위치에서 각 vertices의 좌표 변화를 나타내며, geometry output은 8 channels을 포함한다.
+1. score map : (conv1x1, 1 channel)연산으로 score map을 출력
+2. geometry map : (conv1x1, multi channel)연산으로 geometry map을 출력, RBOX 또는 QUAD가 됨
+3. RBOX : pixel위치와 사각형의 boundaries인 left, top, right, bottom의 거리(4 channels), rotation angle(1 channel)
+4. QUAD : pixel위치와 각 vertices의 좌표 변화량(8 channels)
 
 ### 3.3 Label Generation
 #### 3.3.1 Score Map Generation for Quadrangle
