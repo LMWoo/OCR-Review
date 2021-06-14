@@ -349,20 +349,21 @@ COCO-Text를 제외하고, 모든 text detection 데이터 셋은 object detecti
 
 *COCO-Text*
 
-1. F-score에서 0.0614, Recall에서 0.053넘는 개선은, COCO-Text가 크고 까다로운 벤치마크임을 고려하면, 제안된 알고리즘의 장점을 확인한다.
+1. F-score에서 0.0614, Recall에서 0.053넘는 개선
+2. COCO-Text가 크고 까다로운 벤치마크임을 고려하면, 제안된 알고리즘의 장점이 확인됨
 
 이전 방법에 비해 제안된 알고리즘은 최종 목표를 직접 타겟으로하고 중복 프로세스를 제거하는 간단한 텍스트 감지 파이프라인이,
 복잡한, 대규모 신경망 모델보다 성능이 능가할 수 있음을 증명한다.
 
-MSRA-TD500에서, 3가지 설정에서 제안된 알고리즘이 우수한 결과를 달성했다.
-최고 성적(Ours+PVANET2x)에서 이전 발표된 최첨단 방식보다 개선된 것을 보여준다.
+*MSRA-TD500*
 
-VGG16을 장착한 알고리즘 보다 PVANET및 PVANET2x를 장착한 알고리즘 성능이 훨씬 좋다.
-주된 이유는 VGG의 수용 영역이 PVANET및 PVANET2x보다 작기 때문이다.
-MSRA-TD500의 검증 프로토콜은 word level대신 line level 텍스트 감지 알고리즘 출력을 요구한다.
+1. 최고 성능(Ours+PVANET2x)에서 이전 보다 F-score는 0.0208, precision은 0.0428만큼 개선
+2. VGG16의 수용 영역이 PVANET및 PVANET2x보다 작아 PVANET및 PVANET2x성능이 좋음
+3. MSRA-TD500의 검증 프로토콜은 word level대신 line level 텍스트 감지 알고리즘 출력을 
 
-추가적으로, ICDAR2013에서 recall, precision, F-score에서 0.8267, 0.9264, 0.8737을 달성했다.
-이전 최점단 성능과 비슷한 수준이다.
+*ICDAR2013*
+
+1. 최고 성능(Ours+PVANET2x)에서 recall, precision, F-score가 0.8267, 0.9264, 0.8737을 달성
 
 ### 4.5 Speed Comparision
 
