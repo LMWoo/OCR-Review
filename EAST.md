@@ -17,7 +17,7 @@
 *딥러닝 이전*
 
 1. SWT, MSER - edge감지 또는 extremal region extraction을 통해 character후보 찾음
-2. Zhang 등은 텍스트의 대칭성과 영역 감지를 위한 다양한 features를 이용함
+2. [Zhang](https://openaccess.thecvf.com/content_cvpr_2015/papers/Zhang_Symmetry-Based_Text_Line_2015_CVPR_paper.pdf) 등은 텍스트의 대칭성과 영역 감지를 위한 다양한 features를 이용함
 3. FASText는 Stroke extraction을 위한 FAST감지기를 개조 및 수정한 fast text dectection system
 
 그러나 이러한 방법은 특히, 낮은 해상도 및 기하 왜곡과 같은 상황을 다룰때 딥러닝 방식보다 뒤쳐진다.
