@@ -187,17 +187,42 @@ text classification term은 down-sample된 score map에 대한 픽셀별 loss로
 
 <img width="230" alt="스크린샷 2021-06-19 오후 4 17 42" src="https://user-images.githubusercontent.com/80749934/122634586-eddcf300-d119-11eb-8397-e024d31842ad.png">
 
-### 3.3 RoIRotate
-### 3.4 Text Recognition Branch
+### 3.3 RoIRotate(공부중)
+### 3.4 Text Recognition Branch(공부중)
+
+### 3.5 Implementation Details
 
 ```
-text recognition branch는 shared convolutions에 의해 추출되고, 
-RoIRotate에 의해 변형된 region features를 사용해 text label을 예측한다.
-text recognition branch는 
-RoIRotate에 의해 변형된 region features를 사용해 text label을 예측한다.VGG
+ImageNet 데이터 셋에서 pre-trained model을 사용한다.
+학습 과정은 두 단계가 있다.
+먼저, Synth800k 데이터 셋으로 10epochs만큼 학습한 뒤,
+실제 데이터로 file-tuning한다.
+blurred text regions은 "DO NOT CARE"로 라벨링하며, 학습시 무시된다.
 
+Data augmentation은 먼저 이미지의 긴쪽을 640에서 2560크기로 resize한다.
+그 다음, [-10, 10](단위 degree) 범위에서 랜덤으로 회전시킨다.
+그리고 이미지의 가로를 고정하고 높이를 0.8에서 1.2로 rescale한다.
+마지막으로 이미지를 640x640만큼 자른다.
+
+OHEM
+각 이미지에 대해, 512 hard negative samples, 512 random negative samples, 모든 positive samples를 선택한다.
+그 결과로, positive-to-negative비율은 1:60에서 1:3으로 증가된다.
+그리고 bounding box회귀를 위해, 128 hard positive samples, 128 random positive samples을 선택한다.
+
+Test
+text detection branch에서 예측된 텍스트 영역을 얻은 후,
+RoIRotate는 이 영역에서 thresholding과 NMS를 적용하고,
+최종 인식 결과를 얻기위해 selected text features를 text recognition branch에 공급한다.
+멀티 스케일 테스트는 모든 스케일의 결과가 합쳐지고 마지막 결과를 얻기위해 NMS로 다시 공급된다.
 ```
+
 
 ## 4. Experiments
+
+### 4.1 Benchmark Datasets
+
+#### 4.1.1 ICDAR2015
+
+ 
 ## 5. Conclusion
 ## 6. 공부 할 것들
