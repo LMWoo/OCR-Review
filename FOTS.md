@@ -185,6 +185,15 @@ text classification term은 down-sample된 score map에 대한 픽셀별 loss로
 최종 텍스트 감지 loss식은 다음과 같다. 
 ```
 
+<img width="230" alt="스크린샷 2021-06-19 오후 4 17 42" src="https://user-images.githubusercontent.com/80749934/122634586-eddcf300-d119-11eb-8397-e024d31842ad.png">
+
+### 3.3 RoIRotate
+### 3.4 Text Recognition Branch
+
+```
+텍스트 
+```
+
 ## 4. Experiments
 ## 5. Conclusion
 ## 6. 공부 할 것들
