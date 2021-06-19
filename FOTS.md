@@ -114,7 +114,19 @@ shared convolutions, text detection branch, RoIRotate operation, text recognitio
 
 ### 3.1 Overall Architecture
 
+<img width="584" alt="스크린샷 2021-06-19 오후 2 51 04" src="https://user-images.githubusercontent.com/80749934/122632464-e7e11500-d10d-11eb-8810-42c3900ec640.png">
 
+```
+text detection branch 및 recognition branch는 convolutional features를 공유하며,
+위 그림은 shared network의 구조를 나타낸다.
+shared network의 backbone은 ResNet-50이다.
+FPN에서 영감을 받아, 우리는 low-level feature maps과 high-level feature maps을 연결한다.
+shared convolutions에 의해 생성된 feature maps의 크기는 입력 이미지의 1/4크기이다.
+text detection branch는 shared convolutions에 의해 생성된 features을 사용해 픽셀 별로 예측한다.
+RoIRotate는 detection branch에 의해 생성된 text proposal을 이용해 features를 비율을 유지하여 정해진 높이로 변환한다.
+text recognition branch는 region proposals안에 단어를 인식한다.
+CNN과 LSTM은 시계열 정보를 인코딩하며, CTC로 디코딩된다.
+```
 
 ## 4. Experiments
 ## 5. Conclusion
