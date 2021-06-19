@@ -58,11 +58,59 @@ text spotting은 비전 및 문서 분석에서 활발한 주제이다.
 ```
 대부분 텍스트 감지 방식은 텍스트를 characters의 구성으로 고려한다.
 이러한 character 기반 방식은 먼저 characters를 localize하며, 그것을 word또는 text lines로 묶는다.
-Sliding-window기반 방식 및 
-ㄴ
+기존 방식에는 Sliding-window기반 방식 및 connected-components기반 방식이 있다.
+
+최근, 텍스트 감지를 위한 많은 딥러닝 기반 방식이 제안된다.
+Tian은 고정된 너비 sequential proposals을 예측 및 연결하는 vertical anchor mechanism을 사용한다.
+Ma은 Rotation RPN과 Rotation RoI pooling을 제안하여 새로운 rotation-based framework를 소개한다.
+Shi는 text segments를 예측한 다음 linkage prediction을 이용해 완전한 instances로 연결한다.
+Zhou는 여러 방향의 텍스트 인식을 위해 dense predictions과 한 단계 후처리로 deep direct regression방식을 소개한다.
+```
+
+### 2.2 Text Recognition
+
+```
+일반적으로, 장면 텍스트 인식은 다양한 길이의 텍스트 이미지에서 시계열 라벨을 디코딩하는데 초첨을 맞춘다.
+대부분 이전 방식은 각 characters를 찾고 잘못 분류 된 것을 제거한다.
+character기반 방식이외에, 최근 텍스트 인식 방식은 세가지로 분류 된다.
+1. word classification based method
+2. sequence-to-label decode based method
+3. sequence-to-sequence model based method
+
+Jaderberg는 텍스트 인식을 기존 multi-class분류로써 제안한다.
+Su는 텍스트 인식은 sequence labelling으로 고안하며, HOG features에 RNN이 적용되며 CTC를 디코더로 사용한다.
+Shi, He는 최대로 CNN features를 인코딩하고 CTC로 디코딩 하는 deep recurrent models을 제안한다.
+Lee는 자동적으로 확실한 extracted CNN features에 초점을 맞추고,
+암묵적으로 RNN으로 구현된 character level language model을 학습하는 
+attention기반 sequence-to-sequence구조를 사용한다.
+Shi는 불규칙한 입력이미지를 다루기 위해, 
+왜곡된 텍스트 영역을 텍스트 인식에 적합하게 변형하는 spatial attention mechanism을 소개한다.
+```
+
+### 2.3 Text Spotting
+
+```
+대부분 기존 text spotting방식은 텍스트 감지기로 text proposals을 생성하고, 텍스트 인식기로 그것을 인식한다.
+Jaderberg는 ennsemble model을 사용하여 높은 recall로 전체 text proposals을 생성한 다음 단어 분류를한다.
+Gupta는 텍스트 감지에 Fully-Convolutional Regression Network를 학습하고 텍스트 인식에 단어 분류기를 사용한다.
+Liao는 텍스트 감지에 SSD기반 방식을 사용하고 텍스트 인식에 CRNN을 사용한다.
+
+최근 Li는 end-to-end text spotting방식을 제안하는데,
+텍스트 감지를 위해 RPN에서 고안된 text proposal network를 사용하며 텍스트 인식을 위해 LSTM을 사용한다.
+
+우리의 방식은 다른 방식과 비교하여 두 가지 이점이 있다.
+1. 우리는 RoIRotate를 소개하며, 복잡하고 어려운 상황을 풀기위한 전혀다른 텍스트 감지 알고리즘을 사용한다.
+반면 다른 방식들은 horizontal텍스트에만 적합하다.
+2. 우리의 방식은 속도와 성능측에서 다른 방식보다 더 뛰어나며, 특히 cost-free한 인식 단계는 실시간 수행이 가능하게한다.
+반면 다른 방식들은 600x800이미지 한장을 대략 900ms로 처리한다.
 ```
 
 ## 3. Methodology
+
+```
+
+```
+
 ## 4. Experiments
 ## 5. Conclusion
 ## 6. 공부 할 것들
