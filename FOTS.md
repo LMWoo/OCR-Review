@@ -191,7 +191,11 @@ text classification term은 down-sample된 score map에 대한 픽셀별 loss로
 ### 3.4 Text Recognition Branch
 
 ```
-텍스트 
+text recognition branch는 shared convolutions에 의해 추출되고, 
+RoIRotate에 의해 변형된 region features를 사용해 text label을 예측한다.
+text recognition branch는 
+RoIRotate에 의해 변형된 region features를 사용해 text label을 예측한다.VGG
+
 ```
 
 ## 4. Experiments
