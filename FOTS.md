@@ -154,6 +154,14 @@ text classification term은 down-sample된 score map에 대한 픽셀별 loss로
 기존 텍스트 영역의 줄여진 버전만 positive area로 적용되며 이 사이의 공간은 "NOT CARE"로 적용된다.
 ```
 
+```
+아래 식은 classification에 대한 loss function이다.
+```
+
+<img width="506" alt="스크린샷 2021-06-19 오후 3 46 50" src="https://user-images.githubusercontent.com/80749934/122633841-9d639680-d115-11eb-9954-0a778730e91a.png">
+
+|||
+|||
 
 
 ## 4. Experiments
