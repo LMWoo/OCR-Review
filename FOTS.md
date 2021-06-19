@@ -144,8 +144,17 @@ shared features를 추출하고, one convolution이 단어의 픽셀별 예측�
 마지막 채널은 bounding box의 방향을 예측한다.
 최종 감지 결과는 positive samples에 thresholding과 NMS를 적용하여 생성된다.
 
+이 실험에서, 펜스나 격자 같은 구별하기 힘든 텍스트 strokes와 유사한 패턴을 관찰한다.
+이러한 패턴들을 잘 구별하기 위해 online hard example mining(OHEM)을 적용하며, 또한 OHEM은 클래스 불균형 문제를 해결한다.
+이는 ICDAR2015데이터 셋에서 약 2%성능 개선을 보여준다.
 
+detection branch의 loss function은 2가지 terms으로 구성된다.
+text classification term과 bounding box regression term이다.
+text classification term은 down-sample된 score map에 대한 픽셀별 loss로 볼 수 있다.
+기존 텍스트 영역의 줄여진 버전만 positive area로 적용되며 이 사이의 공간은 "NOT CARE"로 적용된다.
 ```
+
+
 
 ## 4. Experiments
 ## 5. Conclusion
