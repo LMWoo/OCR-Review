@@ -221,8 +221,105 @@ RoIRotate는 이 영역에서 thresholding과 NMS를 적용하고,
 
 ### 4.1 Benchmark Datasets
 
-#### 4.1.1 ICDAR2015
+#### 4.1.1 ICDAR 2015
 
- 
+```
+이 데이터 셋은 1000 training images, 500 test images를 포함한다.
+이러한 이미지는 Google glasses에 의해 위치에 관계없이 생성되며, 텍스트가 임의의 방향이 될 수 있다.
+text spotting 테스트 단계에서 참고를 위한 3가지 lexicons이 있다. 
+"Strong" lexicon은 이미지에 나타난 모든 단어를 포함해 100단어를 제공한다.
+"Weak" lexicon은 전체 test set에 나타난 모든 단어를 포함한다.
+"Generic" lexicondms 90k 단어 사전이다.
+
+train
+1. ICDAR 2017 MLT의 9000개 이미지를 사용하여 학습한다.
+2. 1000개의 ICDAR 2015 train이미지와 229개의 ICDAR 2013 train이미지를 fine-tuning을 위해 사용한다.
+```
+
+#### 4.1.2 ICDAR 2017 MLT
+
+```
+이 데이터 셋은 9개의 다국어, 7200개의 training이미지, 1800개의 validation이미지, 9000개의 test images를 포함한다.
+text spotting task가 없어 텍스트 감지 결과만 본다.
+모델 학습을 위해 training set, validation set모두 사용한다.
+```
+
+#### 4.1.3 ICDAR 2013
+
+```
+이 데이터 셋은 229개의 training 이미지, 233개의 testing 이미지를 포함하며,
+"Strong", "Weak", "Generic" lexicons을 제공한다.
+다른 데이터 셋과 차이점은 horizontal text만 포함한다.
+회전된 텍스트를 위해 설계된 방식은 이러한 텍스트에도 적합하다.
+적은 training이미지 때문에 먼저 ICDAR 2017 MLT의 training, validation set를 사용하여 pre-trained model을 만들고,
+ICDAR 2013의 training 이미지로 fine-tuning한다.
+```
+
+### 4.2 Comparison with Two-Stage Method
+
+```
+텍스트 감지 및 인식이 나눠진 방식과 다르게 연결된 방식은 각 작업에서 서로 이익을 얻을 수 있다.
+이것을 증명하기 위해, 텍스트 감지와 인식을 개별적으로 훈련된 두 가지 시스템을 만든다.
+detection network는 recognition branch가 제거되며 반대도 마찬가지이다.
+결과적로 이렇게 나눠져 학습된 모델보다 동시에 학습된 모델의 성능이 훨씬 뛰어나다.
+
+FOTS의 detection은 recognition의 label로 supervised learning을 수행하기 때문에 더 좋은 성능을 보여준다.
+4가지 공통 이슈를 요약한다.
+1. Miss : 텍스트 영역을 놓치는 것
+2. False : 텍스트가 아닌 영역을 텍스트 영역으로 감지하는 것
+3. Split : 하나의 텍스트 영역을 여러개의 영역으로 나누는 것
+4. Merge : 여러개의 텍스트 영역을 하나의 영역으로 합치는 것
+FOTS모델의 detection 모델은 text recognition label에 의한 supervised learning을 함으로써,
+characters간의 미세한 정보까지 고려하여 학습하며 이는 비슷한 패턴을 가진 단어와 배경에 대해 강화된다.
+따라서 위 4가지 이슈에 대해 강한 성능을 보여준다.
+```
+
+### 4.3 Comparisons with State-of-the-Art Results
+
+```
+모든 데이터 셋에서 큰 차이로 더 좋은 성능을 보여준다.
+ICDAR 2017 MLT가 text spotting task가 없어, 감지 결과만 보여준다.
+ICDAR 2013에 모든 텍스트 영역은 horizontal bounding box로 라벨링 되어있다.
+FOTS model은 ICDAR 2017 MLT로 pre-train했으며 텍스트 영역의 방향을 예측할 수 있다.
+ICDAR 2015에서 기존 방식보다 F-measure측에서 15%이상 성능향상을 보여준다.
+
+단일 스케일 테스트를 위해 ICDAR2015, ICDAR 2017 MLT, ICDAR 2013에 대해 이미지의 긴 변을 2240, 1280, 920으로 resize한다.
+멀티 스케일 테스트에 대해서는 3~5스케일을 적용한다.
+```
+
+### 4.4 Speed and Model Size
+
+```
+convolution sharing 전략을 통해 적은 계산과 메모리의 이익이 있으며,
+"Our Two Stage"방식보다 2배정도 빨라, 실시간 속도를 유지할 수 있다.
+
+ICDAR 2015및 ICDAR 2013에서 테스트 되었다.
+이 데이터 셋은 68 text recognition labels이 있다.
+모든 테스트 이미지를 검증하고 평균 속도를 계산한다.
+
+ICDAR 2015의 이미지는 텍스트 감지에 대해 입력 크기로 2240x1260을 사용하며,
+텍스트 인식을 위해 높이가 32로 맞춰진다.
+ICDAR 2013의 이미지는 텍스트 감지에 긴 변을 920으로 resize하고 감지에 높이를 32로 맞춰 사용한다.
+실시간 속도 달성을 위해, "FOTS RT"는 ResNet-50을 ResNet-34로 대체하며,
+입력이미지를 1280x720으로 사용한다.
+수정된 버전의 Caffe, TITAN-Xp GPU를 사용하여 테스트한다.
+```
+
 ## 5. Conclusion
+
+```
+이 논문에서 oriented scene text spotting을 위한 end-to-end 학습 가능한 모델을 소개했다.(FOTS)
+새로운 RoIRotate연산은 텍스트 감지와 인식을 end-to-end pipeline으로 통합한다.
+convolutional features를 공유하여, 텍스트 인식 단계 비용이 거의 없고, 실시간 속도로 실행 되게 한다.
+표준 벤치마크에 실험들은 제안된 방식이 효율성과 성능측에서 기존 방식보다 뛰어난 성능을 보여준다.
+```
+
 ## 6. 공부 할 것들
+
+```
+RoIRotate
+CRNN
+LSTM
+Attention
+CTC Loss
+```
