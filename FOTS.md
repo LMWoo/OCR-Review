@@ -171,6 +171,19 @@ text classification term은 down-sample된 score map에 대한 픽셀별 loss로
 다음 식은 regression loss이며, 오브젝트 모양과 크기, 방향에 견고한 IoU loss와 rotation angle loss를 사용한다.
 ```
 
+<img width="501" alt="스크린샷 2021-06-19 오후 4 00 19" src="https://user-images.githubusercontent.com/80749934/122634154-9473c480-d117-11eb-8b57-d28a81db8278.png">
+
+|기호|정의|
+|----|----|
+|![](https://latex.codecogs.com/gif.latex?R_x)|the predicted bounding box|
+|![](https://latex.codecogs.com/gif.latex?R%5E*_x)|the ground truth|
+|![](https://latex.codecogs.com/gif.latex?IoU%28R_x%2C%20R%5E*_x%29)|the IoU loss between the predicted bounding box and the ground truth|
+|![](https://latex.codecogs.com/gif.latex?%5Ctheta_x)|the predicted orientation|
+|![](https://latex.codecogs.com/gif.latex?%5Ctheta%5E*_x)|the ground truth orientation|
+
+```
+최종 텍스트 감지 loss식은 다음과 같다. 
+```
 
 ## 4. Experiments
 ## 5. Conclusion
