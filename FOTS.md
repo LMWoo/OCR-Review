@@ -47,6 +47,21 @@ RoIRotate는 feature map에 대한 감지 결과에 해당되는 text proposal f
 3. ICDAR2015, ICDAR2017 MLT, ICDAR2013을 포함한 텍스트 감지 및 인식 벤치 마크에서 최첨단 방식을 능가한다.
 
 ## 2. Related Work
+
+```
+text spotting은 비전 및 문서 분석에서 활발한 주제이다.
+이 장에서, 텍스트 감지 및 인식 방식과 이 두 개를 결합한 text spotting방식을 포함한 관련 논문을 소개한다.
+```
+
+### 2.1 Text Detection
+
+```
+대부분 텍스트 감지 방식은 텍스트를 characters의 구성으로 고려한다.
+이러한 character 기반 방식은 먼저 characters를 localize하며, 그것을 word또는 text lines로 묶는다.
+Sliding-window기반 방식 및 
+ㄴ
+```
+
 ## 3. Methodology
 ## 4. Experiments
 ## 5. Conclusion
