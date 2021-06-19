@@ -133,6 +133,19 @@ CNN과 LSTM은 시계열 정보를 인코딩하며, CTC로 디코딩된다.
 
 ### 3.2 Text Detection Branch
 
+```
+텍스트 감지기로 fully convolutional network를 사용한다.
+자연 장면 이미지에서 작은 텍스트가 많기 때문에, 
+shared convolutions에서 입력이미지의 1/32에서 1/4의 크기의 feature maps으로 늘린다.
+shared features를 추출하고, one convolution이 단어의 픽셀별 예측을 위해 공급된다.
+첫 번째 채널은 각 픽셀별 확률을 계산한다.(Positive sample).
+텍스트 영역에 픽셀들은 positive로 적용한다.
+다음 4채널은 bonding box안에 픽셀에서 top, bottom, left, right까지의 거리를 예측한다.
+마지막 채널은 bounding box의 방향을 예측한다.
+최종 감지 결과는 positive samples에 thresholding과 NMS를 적용하여 생성된다.
+
+
+```
 
 ## 4. Experiments
 ## 5. Conclusion
