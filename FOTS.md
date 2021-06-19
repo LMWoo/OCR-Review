@@ -27,8 +27,24 @@
 feature추출은 보통 시간이 많이 걸리므로, 단일 텍스트 감지 네트워크로 계산을 줄인다.
 텍스트 감지 및 인식을 연결하는 것에 핵심은 RoIRotate이며,
 이는 oriented detection bounding boxes에 따라 feature maps의 적합한 feature를 갖는다.
+```
+
+<img width="853" alt="스크린샷 2021-06-19 오후 1 35 05" src="https://user-images.githubusercontent.com/80749934/122631044-6ab0a280-d103-11eb-87af-ab6fdbab5971.png">
 
 ```
+구조는 위 그림과 같다.
+feature maps는 먼저 shared convolutions으로 추출된다.
+text detection branch는 feature map에 대한 bounding box를 예측한다.
+RoIRotate는 feature map에 대한 감지 결과에 해당되는 text proposal features를 추출한다.
+그런 다음, 이 text proposal features는 텍스트 인식을 위해 RNN encoder와 CTC decoder로 보내진다.
+이 네트워크에서 모든 모듈이 미분가능해서, 전체 시스템은 end-to-end로 학습 될 수 있다.
+이 것은 최초의 텍스트 감지 및 인식을 위한 학습 가능한 end-to-end frame work이다.
+```
+
+3가지 기여
+1. convolutional features를 공유하여, 적은 계산과 실시간으로 텍스트를 감지 및 인식할 수 있다.
+2. RoIRotate는 새로운 미분가능한 연산자이며, convolutional feature maps으로 부터 텍스트 영역을 추출한다. 이 연산자는 텍스트 감지 및 인식을 end-to-end pipeline으로 연결한다.
+3. ICDAR2015, ICDAR2017 MLT, ICDAR2013을 포함한 텍스트 감지 및 인식 벤치 마크에서 최첨단 방식을 능가한다.
 
 ## 2. Related Work
 ## 3. Methodology
