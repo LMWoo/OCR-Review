@@ -160,8 +160,16 @@ text classification term은 down-sample된 score map에 대한 픽셀별 loss로
 
 <img width="506" alt="스크린샷 2021-06-19 오후 3 46 50" src="https://user-images.githubusercontent.com/80749934/122633841-9d639680-d115-11eb-9954-0a778730e91a.png">
 
-|||
-|||
+|기호|정의|
+|----|----|
+|![](https://latex.codecogs.com/gif.latex?%5COmega)|the set of selected positive elements by OHEM in the score map|
+|![](https://latex.codecogs.com/gif.latex?%7C%5Ccdot%7C)|the number of elements in a set|
+|![](https://latex.codecogs.com/gif.latex?p_x)|the prediction of the score map|
+|![](https://latex.codecogs.com/gif.latex?p%5E*_x)|the binary label that indicates text or non-text|
+
+```
+다음 식은 regression loss이며, 오브젝트 모양과 크기, 방향에 견고한 IoU loss와 rotation angle loss를 사용한다.
+```
 
 
 ## 4. Experiments
