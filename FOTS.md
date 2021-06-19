@@ -108,8 +108,13 @@ Liao는 텍스트 감지에 SSD기반 방식을 사용하고 텍스트 인식에
 ## 3. Methodology
 
 ```
-
+FOTS는 자연 장면에서 모든 단어를 동시에 감지 및 인식을 하는 end-to-end framework이며,
+shared convolutions, text detection branch, RoIRotate operation, text recognition branch로 구성된다.
 ```
+
+### 3.1 Overall Architecture
+
+
 
 ## 4. Experiments
 ## 5. Conclusion
